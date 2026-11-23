@@ -1,0 +1,107 @@
+<template>
+    <div class="units-wrapper">
+        <header class="page-header">
+            <h1>Available Units</h1>
+
+            <template if:true={selectedIds.size}>
+                <div class="btn-section">
+                    <button class="offer-btn" onclick={handleCreateOffer}>
+                        Create Offer
+                    </button>
+                </div>
+            </template>
+        </header>
+
+        <!-- Project Filter -->
+        <div class="project-filter-heading">Projects</div>
+        <div class="filters">
+            <button
+                class={allProjectClass}
+                data-id="All"
+                onclick={handleProjectClick}>
+                All Projects
+            </button>
+            <template for:each={projectsWithClass} for:item="project">
+                <button
+                    key={project.Id}
+                    class={project.buttonClass}
+                    data-id={project.Id}
+                    onclick={handleProjectClick}>
+                    {project.Name}
+                </button>
+            </template>
+        </div>
+
+        <div class="type-filter-heading">Type</div>
+        <div class="filters">
+            <button 
+                class={allClass}
+                data-type="All"
+                onclick={handleFilterClick}>
+                All
+            </button>
+            <button 
+                class={villaClass}
+                data-type="Villa"
+                onclick={handleFilterClick}>
+                Villa
+            </button>
+            <button 
+                class={apartmentClass}
+                data-type="Apartment"
+                onclick={handleFilterClick}>
+                Apartment
+            </button>
+            <button 
+                class={officeClass}
+                data-type="Office"
+                onclick={handleFilterClick}>
+                Office
+            </button>
+        </div>
+
+        <div class="table-header">
+            <span>
+                <lightning-input
+                    type="checkbox"
+                    onchange={handleSelectAll}
+                    checked={isAllSelected}>
+                </lightning-input>
+            </span>
+            <span>Unit</span>
+            <span>Unit Type</span>
+            <span>Project</span>
+            <span>Area (sq.ft)</span>
+            <span>Bedrooms</span>
+            <span>Unit Price</span>
+            <span>Plans</span>
+        </div>
+
+        <template for:each={units} for:item="unit">
+            <div key={unit.Id} class="table-row" data-id={unit.Id}>
+                <span>
+                    <lightning-input
+                        type="checkbox"
+                        data-id={unit.Id}
+                        checked={unit.checked}
+                        onchange={handleRowSelect}>
+                    </lightning-input>
+                </span>
+                <span class="unit-name"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M232,224H208V32h8a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16h8V224H24a8,8,0,0,0,0,16H232a8,8,0,0,0,0-16ZM64,32H192V224H160V184a8,8,0,0,0-8-8H104a8,8,0,0,0-8,8v40H64Zm80,192H112V192h32ZM88,64a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H96A8,8,0,0,1,88,64Zm48,0a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H144A8,8,0,0,1,136,64ZM88,104a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H96A8,8,0,0,1,88,104Zm48,0a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H144A8,8,0,0,1,136,104ZM88,144a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H96A8,8,0,0,1,88,144Zm48,0a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H144A8,8,0,0,1,136,144Z"></path></svg>{unit.Name}</span>
+                <span>{unit.Type__c}</span>
+                <span>{unit.Project__r.Name}</span>
+                <span>{unit.Total_Area__c}</span>
+                <span>{unit.Bedrooms__c}</span>
+                <span class="unit-price">
+                    <lightning-formatted-number
+                        value={unit.Unit_Price__c}
+                        format-style="currency">
+                    </lightning-formatted-number>
+                </span>
+                <span class="actions">
+                    <a href={unit.Floor_Plan__c} target="_blank">Plan</a>
+                </span>
+            </div>
+        </template>
+    </div>
+</template>

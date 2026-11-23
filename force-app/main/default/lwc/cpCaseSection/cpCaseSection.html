@@ -1,0 +1,371 @@
+<template>
+    <section class="ccs-root">
+
+        <!-- Grain texture overlay -->
+        <div class="ccs-grain" aria-hidden="true"></div>
+
+        <!-- Ambient glow blobs -->
+        <div class="ccs-blob ccs-blob--1" aria-hidden="true"></div>
+        <div class="ccs-blob ccs-blob--2" aria-hidden="true"></div>
+
+        <!-- ════════════════════════════════════════
+             LEFT PANEL
+             ════════════════════════════════════════ -->
+        <div class="ccs-left">
+
+            <!-- Top eyebrow -->
+            <div class="ccs-eyebrow js-eyebrow">
+                <span class="ccs-eyebrow__dot"></span>
+                <span class="ccs-eyebrow__text">Support Centre</span>
+                <span class="ccs-eyebrow__line"></span>
+            </div>
+
+            <!-- Main headline -->
+            <div class="ccs-headline js-headline">
+                <div class="ccs-headline__overflow">
+                    <span class="ccs-headline__word js-word">We're</span>
+                </div>
+                <div class="ccs-headline__overflow">
+                    <span class="ccs-headline__word js-word">Here to</span>
+                </div>
+                <div class="ccs-headline__overflow ccs-headline__overflow--accent">
+                    <span class="ccs-headline__word ccs-headline__word--accent js-word">Help.</span>
+                </div>
+            </div>
+
+            <!-- Body copy -->
+            <p class="ccs-left__body js-body">
+                Tell us what's going on. Our team reviews every submission
+                and responds fast — with real answers, not templates.
+            </p>
+
+            <!-- Trust signals -->
+            <ul class="ccs-trust js-trust">
+                <li class="ccs-trust__item js-trust-item">
+                    <span class="ccs-trust__icon" aria-hidden="true">◎</span>
+                    <span class="ccs-trust__label">Average response under 4 hours</span>
+                </li>
+                <li class="ccs-trust__item js-trust-item">
+                    <span class="ccs-trust__icon" aria-hidden="true">◎</span>
+                    <span class="ccs-trust__label">Dedicated case owner assigned</span>
+                </li>
+                <li class="ccs-trust__item js-trust-item">
+                    <span class="ccs-trust__icon" aria-hidden="true">◎</span>
+                    <span class="ccs-trust__label">Real-time status updates via portal</span>
+                </li>
+            </ul>
+
+            <!-- Decorative orbital SVG -->
+            <div class="ccs-orb js-orb" aria-hidden="true">
+                <svg viewBox="0 0 500 500" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="250" cy="250" r="238" stroke="currentColor" stroke-width="0.5" stroke-dasharray="5 10"/>
+                    <circle cx="250" cy="250" r="170" stroke="currentColor" stroke-width="0.5" stroke-dasharray="3 7"/>
+                    <circle cx="250" cy="250" r="100" stroke="currentColor" stroke-width="0.5"/>
+                    <circle cx="250" cy="250" r="40"  stroke="currentColor" stroke-width="0.5"/>
+                    <line x1="12"  y1="250" x2="488" y2="250" stroke="currentColor" stroke-width="0.4"/>
+                    <line x1="250" y1="12"  x2="250" y2="488" stroke="currentColor" stroke-width="0.4"/>
+                    <line x1="82"  y1="82"  x2="418" y2="418" stroke="currentColor" stroke-width="0.3"/>
+                    <line x1="418" y1="82"  x2="82"  y2="418" stroke="currentColor" stroke-width="0.3"/>
+                    <circle cx="250" cy="250" r="5"   fill="currentColor"/>
+                    <circle cx="250" cy="12"  r="3"   fill="currentColor"/>
+                    <circle cx="250" cy="488" r="3"   fill="currentColor"/>
+                    <circle cx="12"  cy="250" r="3"   fill="currentColor"/>
+                    <circle cx="488" cy="250" r="3"   fill="currentColor"/>
+                    <circle cx="488" cy="250" r="8"   stroke="currentColor" stroke-width="0.8"/>
+                    <circle cx="80"  cy="250" r="2"   fill="currentColor"/>
+                    <circle cx="420" cy="250" r="2"   fill="currentColor"/>
+                </svg>
+            </div>
+
+        </div>
+
+        <!-- ════════════════════════════════════════
+             VERTICAL RULE
+             ════════════════════════════════════════ -->
+        <div class="ccs-rule" aria-hidden="true">
+            <div class="ccs-rule__track js-rule">
+                <div class="ccs-rule__fill"></div>
+            </div>
+            <span class="ccs-rule__label js-rule-label">NEW CASE</span>
+            <div class="ccs-rule__track js-rule">
+                <div class="ccs-rule__fill"></div>
+            </div>
+        </div>
+
+        <!-- ════════════════════════════════════════
+             RIGHT PANEL — FORM
+             ════════════════════════════════════════ -->
+        <div class="ccs-right">
+
+            <!-- ── SUCCESS STATE ── -->
+            <template if:true={submitted}>
+                <div class="ccs-success js-success">
+                    <div class="ccs-success__ring">
+                        <svg viewBox="0 0 80 80" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <circle
+                                cx="40" cy="40" r="35"
+                                stroke="var(--ccs-accent)"
+                                stroke-width="1.2"
+                                class="js-check-circle"
+                            />
+                            <polyline
+                                points="23,40 34,52 57,27"
+                                stroke="var(--ccs-accent)"
+                                stroke-width="2.2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="js-check-mark"
+                            />
+                        </svg>
+                    </div>
+                    <span class="ccs-success__tag">Case Opened</span>
+                    <h3 class="ccs-success__title">You're all set.</h3>
+                    <p class="ccs-success__sub">
+                        Your case is open and assigned.<br/>
+                        Expect to hear from us soon.
+                    </p>
+                    <button class="ccs-btn ccs-btn--ghost" onclick={resetForm}>
+                        Submit Another
+                    </button>
+                </div>
+            </template>
+
+            <!-- ── FORM STATE ── -->
+            <template if:false={submitted}>
+                <div class="ccs-form js-form">
+
+                    <div class="ccs-form__header js-form-header">
+                        <span class="ccs-form__index">01</span>
+                        <div class="ccs-form__title-wrap">
+                            <p class="ccs-form__caption">Open a support case</p>
+                            <h2 class="ccs-form__title">Tell us what<br/>happened.</h2>
+                        </div>
+                    </div>
+
+                    <!-- Subject -->
+                    <div class="ccs-field js-field" data-required="true">
+                        <label class="ccs-label" for="ccsSubject">Subject</label>
+                        <div class="ccs-input-shell">
+                            <input
+                                id="ccsSubject"
+                                type="text"
+                                class="ccs-input"
+                                placeholder="Brief one-line summary of the issue"
+                                value={subject}
+                                maxlength="255"
+                                onchange={handleSubject}
+                                onfocus={onFieldFocus}
+                                onblur={onFieldBlur}
+                            />
+                            <div class="ccs-input-bar">
+                                <div class="ccs-input-bar__fill js-bar"></div>
+                            </div>
+                        </div>
+                        <template if:true={subjectError}>
+                            <p class="ccs-field__error" role="alert">{subjectError}</p>
+                        </template>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="ccs-field js-field" data-required="true">
+                        <label class="ccs-label" for="ccsCategory">Category</label>
+                        <div class="ccs-select-shell">
+                            <select
+                                id="ccsCategory"
+                                class="ccs-select"
+                                value={category}
+                                onchange={handleCategory}
+                                onfocus={onFieldFocus}
+                                onblur={onFieldBlur}
+                            >
+                                <option value="">— Select a category —</option>
+                                <template for:each={categoryOptions} for:item="opt">
+                                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                </template>
+                            </select>
+                            <span class="ccs-select__arrow" aria-hidden="true">↓</span>
+                            <div class="ccs-input-bar">
+                                <div class="ccs-input-bar__fill js-bar"></div>
+                            </div>
+                        </div>
+                        <template if:true={categoryError}>
+                            <p class="ccs-field__error" role="alert">{categoryError}</p>
+                        </template>
+                    </div>
+
+                    <!-- ── DYNAMIC RELATED RECORDS ── -->
+                    <template if:true={isOfferRelated}>
+                        <div class="ccs-field ccs-field--dynamic">
+                            <label class="ccs-label" for="ccsOffer">Related Offer (optional)</label>
+                            <div class="ccs-select-shell">
+                                <select id="ccsOffer" class="ccs-select" value={offerId} onchange={handleOffer} onfocus={onFieldFocus} onblur={onFieldBlur}>
+                                    <option value="">— Select an Offer —</option>
+                                    <template for:each={offerOptions} for:item="opt">
+                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                    </template>
+                                </select>
+                                <span class="ccs-select__arrow" aria-hidden="true">↓</span>
+                                <div class="ccs-input-bar"><div class="ccs-input-bar__fill js-bar"></div></div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template if:true={isUnitRelated}>
+                        <div class="ccs-field ccs-field--dynamic">
+                            <label class="ccs-label" for="ccsUnitSale">Related Unit Sale (optional)</label>
+                            <div class="ccs-select-shell">
+                                <select id="ccsUnitSale" class="ccs-select" value={unitSaleId} onchange={handleUnitSale} onfocus={onFieldFocus} onblur={onFieldBlur}>
+                                    <option value="">— Select a Unit Sale —</option>
+                                    <template for:each={unitSaleOptions} for:item="opt">
+                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                    </template>
+                                </select>
+                                <span class="ccs-select__arrow" aria-hidden="true">↓</span>
+                                <div class="ccs-input-bar"><div class="ccs-input-bar__fill js-bar"></div></div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template if:true={isPaymentRelated}>
+                        <div class="ccs-field ccs-field--dynamic">
+                            <label class="ccs-label" for="ccsInvoice">Related Invoice (optional)</label>
+                            <div class="ccs-select-shell">
+                                <select id="ccsInvoice" class="ccs-select" value={invoiceId} onchange={handleInvoice} onfocus={onFieldFocus} onblur={onFieldBlur}>
+                                    <option value="">— Select an Invoice —</option>
+                                    <template for:each={invoiceOptions} for:item="opt">
+                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                    </template>
+                                </select>
+                                <span class="ccs-select__arrow" aria-hidden="true">↓</span>
+                                <div class="ccs-input-bar"><div class="ccs-input-bar__fill js-bar"></div></div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template if:true={isBookingRelated}>
+                        <div class="ccs-field ccs-field--dynamic">
+                            <label class="ccs-label" for="ccsLead">Related Enquiry (optional)</label>
+                            <div class="ccs-select-shell">
+                                <select id="ccsLead" class="ccs-select" value={leadId} onchange={handleLead} onfocus={onFieldFocus} onblur={onFieldBlur}>
+                                    <option value="">— Select an Enquiry —</option>
+                                    <template for:each={leadOptions} for:item="opt">
+                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                    </template>
+                                </select>
+                                <span class="ccs-select__arrow" aria-hidden="true">↓</span>
+                                <div class="ccs-input-bar"><div class="ccs-input-bar__fill js-bar"></div></div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Description -->
+                    <div class="ccs-field ccs-field--textarea js-field" data-required="true">
+                        <label class="ccs-label" for="ccsDescription">Description</label>
+                        <div class="ccs-input-shell">
+                            <textarea
+                                id="ccsDescription"
+                                class="ccs-textarea"
+                                placeholder="What happened? What did you expect? Include any steps to reproduce if applicable…"
+                                value={description}
+                                maxlength="32000"
+                                rows="5"
+                                onchange={handleDescription}
+                                onfocus={onFieldFocus}
+                                onblur={onFieldBlur}
+                            ></textarea>
+                            <div class="ccs-input-bar">
+                                <div class="ccs-input-bar__fill js-bar"></div>
+                            </div>
+                        </div>
+                        <template if:true={descriptionError}>
+                            <p class="ccs-field__error" role="alert">{descriptionError}</p>
+                        </template>
+                    </div>
+
+                    <!-- Attachment -->
+                    <div class="ccs-field js-field">
+                        <label class="ccs-label">
+                            Attachment
+                            <span class="ccs-label__optional">(optional)</span>
+                        </label>
+
+                        <div
+                            class={dropzoneClass}
+                            onclick={triggerFileInput}
+                            ondragover={handleDragOver}
+                            ondragleave={handleDragLeave}
+                            ondrop={handleDrop}
+                            data-dropzone
+                        >
+                            <input
+                                type="file"
+                                class="ccs-file-hidden"
+                                accept="image/*,.pdf,.doc,.docx,.txt,.csv,.xls,.xlsx"
+                                onchange={handleFileChange}
+                                data-file-input
+                            />
+
+                            <template if:false={hasFile}>
+                                <div class="ccs-drop__idle">
+                                    <span class="ccs-drop__icon" aria-hidden="true">⊕</span>
+                                    <p class="ccs-drop__primary">
+                                        Drop a file or <u>click to browse</u>
+                                    </p>
+                                    <p class="ccs-drop__secondary">
+                                        Images · PDF · Word · Excel — max 5 MB
+                                    </p>
+                                </div>
+                            </template>
+
+                            <template if:true={hasFile}>
+                                <div class="ccs-drop__attached">
+                                    <span class="ccs-drop__file-icon" aria-hidden="true">◈</span>
+                                    <span class="ccs-drop__file-name">{fileName}</span>
+                                    <button
+                                        class="ccs-drop__remove"
+                                        onclick={removeFile}
+                                        title="Remove attachment"
+                                        type="button"
+                                    >✕</button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Error banner -->
+                    <template if:true={errorMessage}>
+                        <div class="ccs-banner js-banner" role="alert">
+                            <span class="ccs-banner__icon" aria-hidden="true">⚠</span>
+                            <span>{errorMessage}</span>
+                        </div>
+                    </template>
+
+                    <!-- Submit row -->
+                    <div class="ccs-submit-row js-submit-row">
+                        <span class="ccs-submit-row__hint">
+                            Assigned within minutes of submission
+                        </span>
+                        <button
+                            class={submitBtnClass}
+                            onclick={handleSubmit}
+                            disabled={isSubmitting}
+                            type="button"
+                        >
+                            <template if:false={isSubmitting}>
+                                <span class="ccs-btn__label">Submit Case</span>
+                                <span class="ccs-btn__arrow" aria-hidden="true">→</span>
+                            </template>
+                            <template if:true={isSubmitting}>
+                                <span class="ccs-btn__spinner" aria-hidden="true"></span>
+                                <span class="ccs-btn__label">Submitting…</span>
+                            </template>
+                        </button>
+                    </div>
+
+                </div>
+            </template>
+
+        </div>
+
+    </section>
+</template>

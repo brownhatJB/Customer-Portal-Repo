@@ -1,0 +1,11 @@
+<template>
+    <!-- <c-cp-side-menu></c-cp-side-menu> -->
+     <template if:false={showUnitScreen}>
+        <c-cp-available-units onunitselect={handleUnitSelect}></c-cp-available-units>
+     </template>
+    <template if:true={showUnitScreen}>
+        <c-cp-unit-screen
+            unit-id={selectedUnitId}>
+        </c-cp-unit-screen>
+    </template>
+</template>

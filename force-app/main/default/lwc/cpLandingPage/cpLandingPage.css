@@ -1,0 +1,31 @@
+:host {
+    --gold: #D4AF37;
+    --white: #FCFAF8;
+    --black: #1A1A1A;
+}
+.landing-wrapper {
+    margin: 0;
+    padding: 0;
+    background-color: #f7f9fc;
+    opacity: 0;
+}
+
+.page-intro {
+    position: fixed;
+    inset: 0;
+    background: var(--white);
+    color: var(--gold);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Cormorant Garamond', serif;
+    z-index: 6;
+
+    clip-path: inset(0 0 0 0);
+    will-change: transform, clip-path;
+}
+
+.intro-title {
+    font-size: 4rem;
+    letter-spacing: 4px;
+}

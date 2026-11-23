@@ -1,0 +1,161 @@
+:host {
+    width: 100%;
+    max-width: 100%;
+    min-height: 50px;
+    height: 50px;
+    max-height: 50px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    position: relative;
+    padding: 0 14px;
+    background-color: black;
+    overflow: visible;
+    z-index: 1000;
+}
+
+img {
+    margin-right: 4px;
+    max-height: 40px;
+    max-width: 40px;
+}
+
+h2 {
+    margin: 0;
+    text-align: initial;
+    align-self: center;
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: lighter;
+    font-size: inherit;
+    color: white;
+    margin-left: 4px;
+}
+
+.headerButton {
+    background: none;
+    border: none;
+    display: inline-flex;
+    height: 32px;
+    min-height: 32px;
+    width: 32px;
+    min-width: 32px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.headerButton:hover:before {
+    content: "";
+    position: absolute;
+    top: 9px;
+    width: 32px;
+    height: 32px;
+    background-color: #fff;
+    opacity: 0.2;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.headerButton.menuButton:hover:before {
+    top: 0;
+}
+
+.headerButton.closeButton:hover:before {
+    right: 0;
+}
+
+lightning-icon {
+    fill: white;
+}
+
+
+.optionsMenu {
+    position: absolute;
+    /* top: calc(100% + 8px); */
+    right: 0;
+    z-index: 9999;
+}
+
+.optionsMenu > .slds-dropdown__list {
+    max-height: 20rem;
+    overflow-y: auto;
+    padding: 0.25rem;
+}
+
+/* Nubbin */
+.slds-nubbin_top-left:before,
+.slds-nubbin_top-left:after {
+    left: auto;
+    right: 1rem;
+}
+
+/* Dropdown Container */
+.slds-dropdown {
+    min-width: 240px;
+    max-width: 260px;
+    border: none;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+/* Menu Items */
+.slds-dropdown__item {
+    margin: 0;
+}
+
+.slds-dropdown__list > .slds-dropdown__item:not(:first-child) {
+    border-top: none;
+}
+
+.slds-dropdown__item > button {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: none;
+    background: transparent;
+    color: #181818;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    display: flex;
+    align-items: center;
+}
+
+.slds-dropdown__item > button:hover,
+.slds-dropdown__item > button:focus {
+    background: #f4f6f9;
+    outline: none;
+    text-decoration: none;
+}
+
+.slds-dropdown__item > button:active {
+    background: #ecebea;
+}
+
+/* End Chat */
+.slds-text-color_error {
+    color: #c23934 !important;
+    font-weight: 500;
+}
+
+.slds-dropdown__item > button:hover .slds-text-color_error {
+    color: #c23934 !important;
+}
+
+/* Chatbot Options */
+.chatbotMenuOption {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chatbotMenuOption * {
+    pointer-events: none;
+}

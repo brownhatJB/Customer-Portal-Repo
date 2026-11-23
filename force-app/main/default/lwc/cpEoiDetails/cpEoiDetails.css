@@ -1,0 +1,414 @@
+/* Base Container - Full Screen Layout */
+.details-container {
+    background: #f4f6f8;
+    padding: 32px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1a202c;
+    min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Navigation & Page Header */
+.header-banner {
+    background: #ffffff;
+    border: 1px solid #e1e6eb;
+    border-radius: 12px;
+    padding: 34px 32px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 80px;
+}
+
+.nav-back {
+    color: #64748b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.nav-back:hover {
+    color: #0f172a;
+}
+
+.header-banner h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.eoi-pill-badge {
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Greeting Section */
+.greeting-section {
+    margin-bottom: 24px;
+}
+
+.greeting-section h2 {
+    margin: 0 0 6px 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.greeting-section p {
+    margin: 0;
+    font-size: 14px;
+    color: #64748b;
+}
+
+/* Structural Layout */
+.details-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    align-items: start;
+}
+
+/* Main Content Card */
+.details-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.card-title-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.card-title-header .title-icon {
+    color: #64748b;
+}
+
+.card-title-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* Grid Inside Main Card */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 32px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-item label,
+.unit-detail label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.detail-item span,
+.unit-detail span {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+/* Tag Pills */
+.tag-pill {
+    display: inline-block;
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Allocated Unit Side Card */
+.allocated-unit-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    box-sizing: border-box;
+}
+
+.allocated-unit-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.allocated-title-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Enterprise Green Accent - Icon Background */
+.building-icon-bg {
+    background: #ecfdf5;
+    color: #059669;
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.allocated-unit-header h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Enterprise Green Badge */
+.allocated-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    color: #065f46;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.allocated-badge .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #059669;
+}
+
+.allocated-reject-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.unit-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.unit-detail:last-child {
+    margin-bottom: 0;
+}
+
+/* Enterprise Green Verified Footer Note */
+.verified-footer-note {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.verified-footer-note svg {
+    color: #059669;
+}
+
+/* Status Pill */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: #fffdf0;
+    border: 1px solid #f2e29d;
+    color: #b48024;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #cb9229;
+}
+
+/* Enterprise Green Notification Message Banner */
+.offer-journey-message {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 8px;
+    background: #ffffff;
+    border: 1px solid #ffffff;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.offer-journey-message .info-icon {
+    color: #059669;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.offer-journey-message p {
+    margin: 0;
+    color: #064e3b;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+/* Card Footer & Action Buttons */
+.card-footer {
+    border-top: 1px solid #edf2f7;
+    padding-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-pay {
+    background: #0f172a;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-pay:hover {
+    background: #1e293b;
+}
+
+.btn-pay:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.accept-button-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.accept-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: accept-spin 0.7s linear infinite;
+}
+
+@keyframes accept-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.btn-reject {
+    background: #ffffff;
+    color: #0f172a;
+    border: 1px solid #0f172a;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-reject:hover {
+    background: #f8fafc;
+}
+
+.btn-reject:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.margin-top-md {
+    margin-top: 16px;
+}
+
+.margin-top-sm {
+    margin-top: 8px;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+    .details-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .details-container {
+        padding: 16px;
+    }
+
+    .header-banner {
+        padding: 16px 20px;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .header-banner h1 {
+        font-size: 1.25rem;
+    }
+}

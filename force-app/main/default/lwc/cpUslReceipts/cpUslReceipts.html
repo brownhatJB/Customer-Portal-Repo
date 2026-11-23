@@ -1,0 +1,45 @@
+<template>
+
+    <div class="table-container">
+
+        <table class="custom-table">
+
+            <thead>
+                <tr>
+                    <template for:each={columns} for:item="col">
+                        <th key={col.fieldPath}>
+                            {col.label}
+                        </th>
+                    </template>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <template if:true={receipts}>
+
+                    <template for:each={receipts} for:item="receipt">
+
+                        <tr key={receipt.Id}>
+
+                            <template for:each={receipt.values} for:item="val">
+
+                                <td key={val.field}>
+                                    {val.value}
+                                </td>
+
+                            </template>
+
+                        </tr>
+
+                    </template>
+
+                </template>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</template>

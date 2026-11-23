@@ -1,0 +1,9 @@
+<template>
+    <template if:false={showPurchaseDetail}>
+        <c-cp-purchases-list onunitsaleclick={handlUnitSaleNav}></c-cp-purchases-list>
+    </template>
+
+    <template if:true={showPurchaseDetail}>
+        <c-cp-purchase-detail unit-sale-id={receivedUnitSaleId}></c-cp-purchase-detail>
+    </template>
+</template>

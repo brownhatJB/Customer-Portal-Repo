@@ -1,0 +1,275 @@
+<template>
+    <header class="nav-wrapper">
+
+        <div class="nav-inner">
+
+            <!-- Logo -->
+            <div class="logo">Pflex Customer Portal</div>
+
+            <!-- Menu -->
+            <ul class="menu"
+                onmouseenter={handleNavEnter}
+                onmouseleave={handleNavLeave}>
+
+
+                <li data-menu="home"
+                    onmouseenter={handleEnter}>
+                    <template if:true={isHomeActive}>
+                        <span class="dot"></span>
+                    </template>
+                    <a href="/">
+                        Home
+                    </a>
+                    <template if:true={isHomeActive}>
+                        <svg class="icon arrow" viewBox="0 0 24 24">
+                            <path d="M6 15l6-6 6 6"></path>
+                        </svg>
+                    </template>
+                    <template if:false={isHomeActive}>
+                        <svg class="icon arrow" viewBox="0 0 24 24">
+                            <path d="M6 9l6 6 6-6"></path>
+                        </svg>
+                    </template>
+                </li>
+
+                <li data-menu="units"
+                    onmouseenter={handleEnter}>
+                    <template if:true={isUnitsActive}>
+                        <span class="dot"></span>
+                    </template>
+                    <a href="/units">
+                        Units
+                    </a>
+                    <!-- <template if:true={isUnitsActive}>
+                        <svg class="icon arrow" viewBox="0 0 24 24">
+                            <path d="M6 15l6-6 6 6"></path>
+                        </svg>
+                    </template>
+                    <template if:false={isUnitsActive}>
+                        <svg class="icon arrow" viewBox="0 0 24 24">
+                            <path d="M6 9l6 6 6-6"></path>
+                        </svg>
+                    </template> -->
+                </li>
+
+                <li data-menu="appointments"
+                    onmouseenter={handleEnter}>
+                    <template if:true={isAppointmentsActive}>
+                        <span class="dot"></span>
+                    </template>
+                    <a href={appointmentLink}>
+                        Appointments
+                    </a>
+                </li>
+
+                <li data-menu="journeys"
+                    onmouseenter={handleEnter}>
+                    <template if:true={isJourneysActive}>
+                        <span class="dot"></span>
+                    </template>
+                    <a href="javascript:void(0)" onclick={handleJourneysClick}>
+                        Journeys
+                    </a>
+                </li>
+
+                <li data-menu="purchases"
+                    onmouseenter={handleEnter}>
+                    <template if:true={isPurchasesActive}>
+                        <span class="dot"></span>
+                    </template>
+                    <a href="javascript:void(0)" onclick={handlePurchaseClick}>
+                        Purchases
+                    </a>
+                </li>
+                <li data-menu="cases"
+                    onmouseenter={handleEnter}>
+                    <template if:true={isCasesActive}>
+                        <span class="dot"></span>
+                    </template>
+                    <a href={caseLink}>
+                        Cases
+                    </a>
+                </li>
+                <li data-menu="eoi"
+                    onmouseenter={handleEnter}>
+                    <template if:true={isEoiActive}>
+                        <span class="dot"></span>
+                    </template>
+                    <a href="javascript:void(0)" onclick={handleEoiClick}>
+                        EOI
+                    </a>
+                </li>
+            </ul>
+
+                <div class="nav-actions">
+                    <!-- Notification Bell -->
+                <template if:false={isGuestUser}>
+                    <div class="notification-wrapper">
+                        <c-broker-notification-bell
+                            notification-for="Customer Portal">
+                        </c-broker-notification-bell>
+                    </div>
+                </template>
+
+            <!-- Account -->
+            <div class="account"
+                 onmouseenter={showAccountMenu}
+                 onmouseleave={hideAccountMenu}>
+
+                <svg viewBox="0 0 24 24" class="icon">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+                </svg>
+
+                <div if:true={accountOpen} class="account-dropdown" onmouseenter= {handleAccountPanelHover} onmouseleave={handleAccountPanelLeave}>
+                    <ul class="account-menu">
+
+                        <template if:true={isGuestUser}>
+                             <li>
+                                <svg class="account-svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M141.66,133.66l-40,40a8,8,0,0,1-11.32-11.32L116.69,136H24a8,8,0,0,1,0-16h92.69L90.34,93.66a8,8,0,0,1,11.32-11.32l40,40A8,8,0,0,1,141.66,133.66ZM200,32H136a8,8,0,0,0,0,16h56V208H136a8,8,0,0,0,0,16h64a8,8,0,0,0,8-8V40A8,8,0,0,0,200,32Z">
+                                    </path>
+                                </svg>
+                                <a href="/customerlogin">
+                                    Login
+                                </a>
+                            </li>
+                        </template>
+
+                        <template if:false={isGuestUser}>
+                            <li>
+                                <svg class="account-svg logout" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L204.69,120H112a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,229.66,122.34Z">
+                                    </path>
+                                </svg>
+                                <a href="javascript:void(0)" onclick={handleLogout}>
+                                    Logout
+                                </a>
+                            </li>
+                        </template>
+
+                        <template if:false={isGuestUser}> 
+                            <li>
+                                <svg class="account-svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M228.25,63.07l-4.66-2.69a23.6,23.6,0,0,0,0-8.76l4.66-2.69a8,8,0,0,0-8-13.86l-4.67,2.7A23.92,23.92,0,0,0,208,33.38V28a8,8,0,0,0-16,0v5.38a23.92,23.92,0,0,0-7.58,4.39l-4.67-2.7a8,8,0,1,0-8,13.86l4.66,2.69a23.6,23.6,0,0,0,0,8.76l-4.66,2.69a8,8,0,0,0,4,14.93,7.92,7.92,0,0,0,4-1.07l4.67-2.7A23.92,23.92,0,0,0,192,78.62V84a8,8,0,0,0,16,0V78.62a23.92,23.92,0,0,0,7.58-4.39l4.67,2.7a7.92,7.92,0,0,0,4,1.07,8,8,0,0,0,4-14.93ZM192,56a8,8,0,1,1,8,8A8,8,0,0,1,192,56Zm29.35,48.11a8,8,0,0,0-6.57,9.21A88.85,88.85,0,0,1,216,128a87.62,87.62,0,0,1-22.24,58.41,79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75A88,88,0,0,1,128,40a88.76,88.76,0,0,1,14.68,1.22,8,8,0,0,0,2.64-15.78,103.92,103.92,0,1,0,85.24,85.24A8,8,0,0,0,221.35,104.11ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0Z">
+                                    </path>
+                                </svg>
+                                <a href={accountLink}>
+                                    My Account
+                                </a>
+                            </li>
+                        </template>
+
+                        <template if:true={isGuestUser}>
+                             <li>
+                                <svg class="account-svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M152,80a8,8,0,0,1,8-8h88a8,8,0,0,1,0,16H160A8,8,0,0,1,152,80Zm96,40H160a8,8,0,0,0,0,16h88a8,8,0,0,0,0-16Zm0,48H184a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm-96.25,22a8,8,0,0,1-5.76,9.74,7.55,7.55,0,0,1-2,.26,8,8,0,0,1-7.75-6c-6.16-23.94-30.34-42-56.25-42s-50.09,18.05-56.25,42a8,8,0,0,1-15.5-4c5.59-21.71,21.84-39.29,42.46-48a48,48,0,1,1,58.58,0C129.91,150.71,146.16,168.29,151.75,190ZM80,136a32,32,0,1,0-32-32A32,32,0,0,0,80,136Z">
+                                    </path>
+                                </svg>
+                                <a href="/customersignup">
+                                    Sign up
+                                </a>
+                            </li>
+                        </template>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        
+
+
+        </div>
+
+        <!-- Mega Menu -->
+        <div class="mega"
+             if:true={isMegaOpen}
+             onmouseenter={handlePanelEnter}
+             onmouseleave={handlePanelLeave}>
+
+            <div class="mega-container">
+
+                <!-- LEFT -->
+                <template if:true={isGuestUser}>
+                    <div class="left">
+                        <template for:each={activeGuestMenuData} for:item="item">
+                            <div key={item.label}
+                                class={item.className}
+                                data-label={item.label}
+                                data-section={item.section}
+                                data-page={item.page}
+                                onclick={scrollToSection}
+                                onmouseenter={handleGuestItemHover}>
+                                {item.label}
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <template if:false={isGuestUser}>
+                    <div class="left">
+                        <template for:each={activeMenuData} for:item="item">
+                            <div key={item.label}
+                                class={item.className}
+                                data-label={item.label}
+                                data-section={item.section}
+                                data-page={item.page}
+                                onclick={scrollToSection}
+                                onmouseenter={handleItemHover}>
+                                {item.label}
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- RIGHT -->
+                <div class="right">
+                    <div class="card-grid">
+                        <template for:each={activeItem.gallery} for:item="img">
+                            <div key={img.image} class="card">
+
+                                <img src={img.image} />
+
+                                <div class="card-content">
+                                    <h4>{img.title}</h4>
+                                    <p>{img.desc}</p>
+                                </div>
+
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </header>
+
+    <template if:true={showUploadModal}>
+        <div class="modal-backdrop" onclick={handleBackdropClick}>
+            <div class="modal-box" onclick={stopPropagation}>
+
+                <div class="modal-header">
+                    <h2>Upload — {activeDocumentType}</h2>
+                    <lightning-button-icon
+                        icon-name="utility:close"
+                        variant="bare"
+                        onclick={closeModal}>
+                    </lightning-button-icon>
+                </div>
+
+                <div class="modal-body">
+                    <lightning-file-upload
+                        label="Choose file"
+                        name="chatFileUpload"
+                        record-id={communityId}
+                        accept={activeAcceptedFormats}
+                        onuploadfinished={handleUploadFinished}>
+                    </lightning-file-upload>
+                </div>
+
+            </div>
+        </div>
+    </template>
+</template>

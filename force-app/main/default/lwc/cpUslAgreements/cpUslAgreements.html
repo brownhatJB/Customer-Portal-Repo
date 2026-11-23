@@ -1,0 +1,14 @@
+<template>
+    <div class="heading-section">
+        <h2>{docHeading}</h2>
+    </div>
+    
+
+    <div class="page-section">
+        <template if:true={fileUrl}>
+            <div class="iframe-container">
+                <iframe src={fileUrl} style="width: 100%; height: 100%; border: 0;"></iframe>
+            </div>
+        </template>
+    </div>
+</template>

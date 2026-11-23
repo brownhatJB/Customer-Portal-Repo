@@ -1,0 +1,124 @@
+/* .container {
+     padding: 28px;
+} */
+
+.heading {
+    font-size: 1.5rem;
+    font-family: 'Cormorant Garamond';
+    font-style: italic;
+
+    color: #c8977a;
+}
+
+/* LEFT PANEL */
+.left-panel {
+    width: 280px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* RIGHT PANEL
+.right-panel {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+} */
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* STEP */
+.step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* LABEL */
+.label {
+    font-size: 14px;
+     font-family: 'Cormorant Garamond';
+     font-weight: 400;
+}
+
+
+/* CIRCLE */
+.circle {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 4px solid #cbd5e1;
+
+    transition: all 0.25s ease;
+}
+
+/* ACTIVE */
+.circle.active {
+    border-color: #c8977a;
+    animation: pulse 1.2s infinite;
+    box-shadow: 0 0 10px 2px rgba(200, 151, 122, 0.4);
+   
+}
+
+.step .circle.active ~ .label {
+    font-weight: 700;
+    font-size: 16px;
+    color: #c8977a;
+}
+
+/* COMPLETED */
+.circle.completed {
+    background: #c8977a;
+    border-color: #c8977a;
+}
+
+/* HOVER */
+/* .circle:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+} */
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(200, 151, 122, 0.4);
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 6px rgba(200, 151, 122, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(200, 151, 122, 0);
+    }
+}
+
+/* LINE */
+.line {
+    width: 2px;
+    height: 26px;
+    background: #e5e7eb;
+    margin-left: 6px;
+}
+
+/* COMPLETED LINE */
+.completed-line {
+    background: #c8977a;
+}
+
+/* ERROR */
+.error {
+    color: red;
+}

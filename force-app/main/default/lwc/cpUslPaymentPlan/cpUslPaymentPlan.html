@@ -1,0 +1,53 @@
+<template>
+
+    <div class="panel-card">
+
+        <div class="panel-title">
+            Payment Plan
+        </div>
+
+        <template if:true={paymentPlanItems.length}>
+
+            <!-- Header -->
+            <div class="payments-header">
+
+                <template for:each={columns} for:item="col">
+
+                    <div key={col.fieldPath}>
+                        {col.label}
+                    </div>
+
+                </template>
+
+            </div>
+
+            <!-- Rows -->
+            <template for:each={paymentPlanItems} for:item="item">
+
+                <div class="payment-row" key={item.Id}>
+
+                    <template for:each={item.values} for:item="field">
+
+                        <div key={field.field}>
+                            {field.value}
+                        </div>
+
+                    </template>
+
+                </div>
+
+            </template>
+
+        </template>
+
+        <template if:false={paymentPlanItems.length}>
+
+            <div class="empty-state">
+                No payment plan items found
+            </div>
+
+        </template>
+
+    </div>
+
+</template>

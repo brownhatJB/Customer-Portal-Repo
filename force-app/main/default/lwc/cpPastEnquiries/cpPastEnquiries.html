@@ -1,0 +1,44 @@
+<template>
+    <div class="enquiries-wrapper">
+        <header class="section-header">
+            <h2 class="enquiry-header">Enquiries</h2>
+        </header>
+        <div class="table-header">
+            <span>Enq Id</span>
+            <span>Date</span>
+            <span>Project</span>
+            <span>Stage</span>
+        </div>
+
+        <template if:true={enquiries.length}>
+            <template for:each={enquiries} for:item="enquiry">
+                <div key={enquiry.Id} class="table-row">
+                    <span>{enquiry.Enquiry_Number__c}</span>
+                    <span>
+                        <lightning-formatted-date-time
+                            value={enquiry.CreatedDate}
+                            year="numeric"
+                            month="short"
+                            day="2-digit">
+                        </lightning-formatted-date-time>
+                    </span>
+                    <span>
+                        <template if:true={enquiry.Interested_In_Project__c}>
+                            {enquiry.Interested_In_Project__r.Name}
+                        </template>
+                        <template if:false={enquiry.Interested_In_Project__c}>
+                            <span class="no-project">—</span>
+                        </template>
+                    </span>
+                    <span>{enquiry.Stage__c}</span>
+                </div>
+            </template>
+        </template>
+
+        <template if:false={enquiries.length}>
+            <div class="empty-state">
+                No past enquiries found.
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,342 @@
+:host {
+    --gold: #D4AF37;
+    --gold-muted: rgba(212, 175, 55, 0.10);
+    --white: #FCFAF8;
+    --black: #1A1A1A;
+    --gray-50: #F7F5F3;
+    --gray-100: #EDEBE8;
+    --gray-300: #CCC8C2;
+    --gray-400: #A09890;
+    --gray-600: #6B6560;
+    --green: #3D7A5B;
+    --green-bg: rgba(61, 122, 91, 0.08);
+    --red: #B94040;
+    --red-bg: rgba(185, 64, 64, 0.08);
+    --amber: #B07D2A;
+    --amber-bg: rgba(176, 125, 42, 0.08);
+    --radius: 10px;
+    --transition: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+
+    display: block;
+    font-family: 'Georgia', serif;
+    color: var(--black);
+}
+
+/* ── Header ── */
+.doc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.header-title {
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    font-size: 0.72rem;
+}
+
+.doc-count {
+    background: var(--gold-muted);
+    color: var(--amber);
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+}
+
+/* ── Table ── */
+.table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-100);
+}
+
+.doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.doc-table thead tr {
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.doc-table th {
+    padding: 0.8rem 1rem;
+    text-align: left;
+    font-size: 0.67rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+    white-space: nowrap;
+}
+
+.doc-row {
+    border-bottom: 1px solid var(--gray-100);
+    transition: background var(--transition);
+}
+
+.doc-row:last-child {
+    border-bottom: none;
+}
+
+.doc-row:hover {
+    background: var(--gray-50);
+}
+
+.doc-table td {
+    padding: 0.9rem 1rem;
+    vertical-align: middle;
+}
+
+/* ── Cells ── */
+.id-badge {
+    font-size: 0.72rem;
+    font-family: 'Courier New', monospace;
+    color: var(--gray-600);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+}
+
+.cell-name {
+    font-size: 0.875rem;
+    color: var(--black);
+}
+
+/* ── Expiry ── */
+.expiry-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.expiry-text {
+    font-size: 0.82rem;
+    color: var(--gray-600);
+}
+
+.expiry-text.expired {
+    color: var(--red);
+}
+
+.expiry-text.expiring-soon {
+    color: var(--amber);
+}
+
+.expiry-edit {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.date-input {
+    all: unset;
+    border: 1px solid var(--gray-300);
+    border-radius: 6px;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    font-family: 'Georgia', serif;
+    color: var(--black);
+    background: var(--white);
+    cursor: text;
+}
+
+.date-input:focus {
+    border-color: var(--gold);
+    outline: none;
+}
+
+/* ── Icon Buttons ── */
+.icon-btn {
+    all: unset;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    transition: background var(--transition), color var(--transition);
+    flex-shrink: 0;
+}
+
+.edit-btn {
+    color: var(--gray-400);
+    opacity: 0;
+    transition: opacity var(--transition), background var(--transition);
+}
+
+.doc-row:hover .edit-btn {
+    opacity: 1;
+}
+
+.edit-btn:hover {
+    background: var(--gray-100);
+    color: var(--black);
+}
+
+.save-btn {
+    color: var(--green);
+    background: var(--green-bg);
+}
+
+.save-btn:hover {
+    background: rgba(61, 122, 91, 0.16);
+}
+
+.cancel-btn {
+    color: var(--red);
+    background: var(--red-bg);
+}
+
+.cancel-btn:hover {
+    background: rgba(185, 64, 64, 0.16);
+}
+
+/* ── Status Badge ── */
+.status-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 400;
+    background: var(--gray-100);
+    color: var(--gray-600);
+}
+
+.status-badge.status-approved {
+    background: var(--green-bg);
+    color: var(--green);
+}
+
+.status-badge.status-rejected,
+.status-badge.status-expired {
+    background: var(--red-bg);
+    color: var(--red);
+}
+
+.status-badge.status-pending {
+    background: var(--amber-bg);
+    color: var(--amber);
+}
+
+/* ── Upload ── */
+.file-input {
+    display: none;
+}
+
+.upload-label {
+    cursor: pointer;
+}
+
+.upload-btn {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--gray-300);
+    color: var(--gray-600);
+    background: var(--white);
+    letter-spacing: 0.04em;
+    transition: border-color var(--transition), color var(--transition), background var(--transition);
+    white-space: nowrap;
+}
+
+.upload-label:hover .upload-btn {
+    border-color: var(--gold);
+    color: var(--black);
+    background: var(--gold-muted);
+}
+
+/* ── Preview ── */
+.preview-btn {
+    all: unset;
+    cursor: pointer;
+    font-size: 0.75rem;
+    color: var(--gray-600);
+    border-bottom: 1px solid var(--gray-300);
+    padding-bottom: 1px;
+    letter-spacing: 0.03em;
+    transition: color var(--transition), border-color var(--transition);
+}
+
+.preview-btn:hover {
+    color: var(--black);
+    border-color: var(--gold);
+}
+
+.no-preview {
+    color: var(--gray-300);
+    font-size: 0.85rem;
+}
+
+/* ── States ── */
+.state-wrapper {
+    padding: 2rem 0;
+}
+
+.empty-state {
+    text-align: center;
+}
+
+.state-text {
+    color: var(--gray-400);
+    font-size: 0.85rem;
+}
+
+/* ── Skeleton ── */
+.skeleton-row {
+    height: 44px;
+    background: linear-gradient(90deg, var(--gray-50) 25%, var(--gray-100) 50%, var(--gray-50) 75%);
+    background-size: 200% 100%;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    animation: shimmer 1.4s ease-in-out var(--d, 0s) infinite;
+}
+
+@keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.banner-header {
+    padding: 1rem;
+    background: #dafbe1;
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--gray-600);
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
+}
+
+.all-uploaded-banner {
+    margin-top: 3rem;
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+}
+
+.message-section {
+    padding: 1rem;
+}
+.banner-message {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+}

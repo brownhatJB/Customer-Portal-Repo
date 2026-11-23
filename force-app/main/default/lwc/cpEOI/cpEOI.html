@@ -1,0 +1,66 @@
+<template>
+    <template if:true={showFirstScreen}>
+        <div class="eoi-section">
+            <div class="check">✓</div>
+            <h2 class="thank-you-heading">Thank You for Visiting!</h2>
+            <p class="thank-you-message">
+                We appriciate you taking the time to meet with our team and we hope you had a great experience.
+            </p>
+
+            <h2 class="second-heading">Would you like to continue further?</h2>
+            
+            <p>Our team is ready to assist you with the next steps in your property journey</p>
+
+            <div class="btn-section">
+                <button class="btn-interested" onclick={handleInterestBtn}>
+                    Yes, I'm Interested
+                </button>
+
+                <button class="btn-not-interested" onclick={handleNotInterestBtn}>
+                    No, Thanks
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <template if:true={showInterestedScreen}>
+        <div class="interested-section">
+            <div class="heart">♡</div>
+            <h2 class="thank-you-heading">Wonderful! We're Excited to Continue!</h2>
+            <p class="thank-you-message">
+                Thank you for your interest! Our team will be in touch with you shortly to discuss the next steps.
+            </p>
+
+            <template if:true={isLoadingUnits}>
+                <button class="unit-btn" onclick={handleViewUnits} disabled={isLoadingUnits}>
+                    <lightning-spinner class="unit-btn-spinner" alternative-text="Loading" size="x-small"></lightning-spinner>
+                    View Units
+                </button>
+            </template>
+
+            <template if:false={isLoadingUnits}>
+                <button class="unit-btn" onclick={handleViewUnits}>
+                    View Units
+                </button>
+            </template>
+        </div>
+    </template>
+
+    <template if:true={showNotInterestedScreen}>
+        <div class="not-interested-section">
+            <div class="cross">✗</div>
+            <h2 class="thank-you-heading">No Problem! We Appreciate Your Time!</h2>
+            <p class="thank-you-message">
+                We appreciate you considering MD Realty for your property needs. We hope to serve you in the future.
+            </p>
+
+            <p class="second-message">
+                If you change your mind or have any questions, please don't hesitate to reach out to us. Our team is always here to help.
+            </p>
+
+            <div class="contact-info">
+                <p><span class="contact-heading">Contact: </span>info@mdrealty.com</p>
+            </div>
+        </div>
+    </template>
+</template>

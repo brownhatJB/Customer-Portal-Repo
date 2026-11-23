@@ -1,0 +1,280 @@
+/* ── Tokens ───────────────────────────────── */
+:host {
+    --blue-dark:   #0a2540;
+    --blue:        #0176d3;
+    --blue-mid:    #0369A1;
+    --blue-light:  #def2fd;
+    --blue-bg:     #f4faff;
+    --muted:       #64748B;
+    --border:      #e5e5e5;
+    --border-mid:  #eee;
+    --white:       #ffffff;
+    --surface:     #f7f9fc;
+    --green:       #4ADE80;
+    --radius:      10px;
+    --shadow-sm:   0 2px 8px rgba(0,0,0,0.05);
+    --shadow-hover:0 5px 16px rgba(0,0,0,0.08);
+    --transition:  0.2s ease;
+}
+
+/* ── Layout ───────────────────────────────── */
+.page-container {
+    min-height: 100vh;
+}
+
+/* ── Header ───────────────────────────────── */
+.top-section {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.confirm-btn {
+    padding: 9px 22px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    font-size: 13.5px;
+    cursor: pointer;
+    color: var(--blue-mid);
+    font-weight: 500;
+    transition: all var(--transition);
+}
+
+.confirm-btn:hover:not([disabled]) {
+    background: var(--blue-dark);
+    color: white;
+    border-color: var(--blue-dark);
+    box-shadow: var(--shadow-hover);
+}
+
+.confirm-btn[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ── Panel Card ───────────────────────────── */
+.panel-card {
+    background: var(--white);
+    padding: 18px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.panel-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    color: var(--blue-dark);
+}
+
+.svgIcon {
+    margin-right: 0.75rem;
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+}
+
+.svgIcon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.for-label {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-left: 6px;
+}
+
+/* ── Offer / Unit Cards ───────────────────── */
+.unit-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.unit-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.unit-card.selected {
+    border: 2px solid var(--blue);
+    background: var(--blue-bg);
+}
+
+.unit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--blue-mid);
+    margin-bottom: 4px;
+}
+
+.unit-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.bhk {
+    background: var(--blue-light);
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.property {
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+}
+
+.unit-details {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.unit-price {
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border);
+}
+
+/* Green chip shown when a plan is chosen for this offer */
+.plan-chip {
+    margin-top: 8px;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #e6f4ea;
+    color: #2d7a44;
+    border: 1px solid #a8d5b5;
+}
+
+/* ── Payment Plan Cards ───────────────────── */
+.payment-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.payment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.payment-card.selected {
+    border: 2px solid var(--blue);
+    background: var(--blue-bg);
+}
+
+.plan-checkbox-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 4px;
+}
+
+.plan-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--blue-dark);
+    margin-bottom: 8px;
+}
+
+.payments-header,
+.payment-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1.4fr 0.8fr 1.2fr 1fr;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-mid);
+    gap: 8px;
+}
+
+.payments-header {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.payment-row {
+    font-size: 13.5px;
+    color: #333;
+}
+
+.payment-row:last-child {
+    border-bottom: none;
+}
+
+/* ── Empty States ─────────────────────────── */
+.empty-state {
+    padding: 28px 16px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-style: italic;
+}
+
+.plans-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    min-height: 260px;
+    padding: 40px;
+}
+
+.empty-icon {
+    opacity: 0.6;
+}
+
+.plans-empty p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* ── Skeletons ────────────────────────────── */
+@keyframes shimmer {
+    0%   { background-position: -600px 0; }
+    100% { background-position: 600px 0; }
+}
+
+.skeleton-card,
+.skeleton-plan {
+    border-radius: var(--radius);
+    background: linear-gradient(90deg, #eef1f5 25%, #e4e8ee 50%, #eef1f5 75%);
+    background-size: 600px 100%;
+    animation: shimmer 1.4s infinite;
+    margin-bottom: 10px;
+}
+
+.skeleton-card  { height: 120px; }
+.skeleton-plan  { height: 160px; }

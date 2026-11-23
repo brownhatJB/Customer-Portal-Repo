@@ -1,0 +1,139 @@
+<template>
+    <div class="login-root">
+
+        <!-- Ambient background orbs -->
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+
+        <div class="login-card">
+
+            <!-- Logo / Brand mark -->
+            <div class="brand">
+                <div class="brand-mark">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="1" width="26" height="26" rx="7" stroke="var(--gold)" stroke-width="1.5"/>
+                        <path d="M8 14h12M14 8v12" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <span class="brand-name">MD Realty</span>
+            </div>
+
+            <!-- Heading -->
+            <div class="heading-block">
+                <h1 class="heading">Welcome back</h1>
+                <p class="subheading">Sign in to your account to continue.</p>
+            </div>
+
+            <!-- Error / Success messages -->
+            <template if:true={errorMessage}>
+                <div class="alert alert-error" role="alert">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="8" r="7" stroke="var(--danger)" stroke-width="1.4"/>
+                        <path d="M8 5v3.5M8 11h.01" stroke="var(--danger)" stroke-width="1.4" stroke-linecap="round"/>
+                    </svg>
+                    <span>{errorMessage}</span>
+                </div>
+            </template>
+
+            <!-- Form -->
+            <div class="form">
+
+                <!-- Username -->
+                <div class={usernameFieldClass}>
+                    <label class="field-label" for="username">Email or Username</label>
+                    <div class="input-wrap">
+                        <svg class="input-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.3"/>
+                            <path d="M2.5 13c0-2.485 2.462-4.5 5.5-4.5s5.5 2.015 5.5 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                        </svg>
+                        <input
+                            id="username"
+                            class="input"
+                            type="text"
+                            placeholder="you@example.com"
+                            value={username}
+                            onchange={handleUsernameChange}
+                            onblur={handleUsernameBlur}
+                            autocomplete="username"
+                        />
+                    </div>
+                    <template if:true={usernameError}>
+                        <span class="field-error">{usernameError}</span>
+                    </template>
+                </div>
+
+                <!-- Password -->
+                <div class={passwordFieldClass}>
+                    <label class="field-label" for="password">Password</label>
+                    <div class="input-wrap">
+                        <svg class="input-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <rect x="3" y="7" width="10" height="7" rx="2" stroke="currentColor" stroke-width="1.3"/>
+                            <path d="M5 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                        </svg>
+                        <input
+                            id="password"
+                            class="input"
+                            type={passwordType}
+                            placeholder="••••••••"
+                            value={password}
+                            onchange={handlePasswordChange}
+                            onblur={handlePasswordBlur}
+                            autocomplete="current-password"
+                            onkeyup={handleEnter}
+                        />
+                        <button class="toggle-pwd" type="button" onclick={togglePassword} title="Toggle password visibility">
+                            <template if:true={showPassword}>
+                                <!-- Eye-off icon -->
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M2 2l12 12M6.5 6.6A2 2 0 0 0 9.4 9.5M4.2 4.3C2.8 5.2 1.7 6.5 1 8c1.3 3 4.1 5 7 5 1.3 0 2.6-.4 3.7-1L4.2 4.3zm3.4-2.2C8 2 8.5 2 9 2c2.9 0 5.7 2 7 5-.5 1.1-1.2 2.1-2.1 2.9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+                                </svg>
+                            </template>
+                            <template if:false={showPassword}>
+                                <!-- Eye icon -->
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M1 8c1.3-3 4.1-5 7-5s5.7 2 7 5c-1.3 3-4.1 5-7 5S2.3 11 1 8z" stroke="currentColor" stroke-width="1.3"/>
+                                    <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/>
+                                </svg>
+                            </template>
+                        </button>
+                    </div>
+                    <template if:true={passwordError}>
+                        <span class="field-error">{passwordError}</span>
+                    </template>
+                </div>
+
+                <!-- Forgot password -->
+                <div class="forgot-row">
+                    <a href="/ForgotPassword" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <!-- Submit -->
+                <button
+                    class="btn-primary"
+                    type="button"
+                    onclick={handleLogin}
+                    disabled={isLoading}
+                >
+                    <template if:true={isLoading}>
+                        <span class="spinner"></span>
+                        <span>Signing in…</span>
+                    </template>
+                    <template if:false={isLoading}>
+                        <span>Sign in</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </template>
+                </button>
+
+                <p class="signup-prompt">
+                    Do not have an account?&nbsp;
+                    <a href="/customersignup" class="signup-link">Sign up</a>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+</template>

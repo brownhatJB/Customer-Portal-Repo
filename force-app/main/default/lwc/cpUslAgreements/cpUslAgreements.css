@@ -1,0 +1,17 @@
+.iframe-container {
+    width: 100%;
+    height: 80vh;
+}
+
+.heading-section {
+    display: grid;
+    place-items: center;
+}
+
+.heading-section h2 {
+    font-family: 'Cormorant Garamond';
+    font-size: 2.4rem;
+    font-style: italic;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}

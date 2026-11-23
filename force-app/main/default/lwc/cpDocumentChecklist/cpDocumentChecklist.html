@@ -1,0 +1,161 @@
+<template>
+    <div class="doc-container">
+
+        <!-- Header -->
+        <div class="doc-header">
+            <div class="header-left">
+                <span class="header-title">Documents</span>
+                <span class="doc-count" if:true={documents}>{documents.length}</span>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <template if:true={isLoading}>
+            <div class="state-wrapper">
+                <div class="skeleton-row" style="--d:0s"></div>
+                <div class="skeleton-row" style="--d:.08s"></div>
+                <div class="skeleton-row" style="--d:.16s"></div>
+            </div>
+        </template>
+
+        <!-- Error -->
+        <template if:true={error}>
+            <div class="state-wrapper empty-state">
+                <p class="state-text">Failed to load documents.</p>
+            </div>
+        </template>
+
+        <!-- Table -->
+        <template if:true={hasDocuments}>
+            <div class="table-wrapper">
+                <table class="doc-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                            <th>Upload</th>
+                            <th>Preview</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={documents} for:item="doc">
+                            <tr key={doc.Id} class="doc-row">
+
+                                <!-- ID -->
+                                <td class="cell-id">
+                                    <span class="id-badge">{doc.Name}</span>
+                                </td>
+
+                                <!-- Name -->
+                                <td class="cell-name">{doc.Name__c}</td>
+
+                                <!-- Expiry Date -->
+                                <td class="cell-expiry">
+                                    <template if:false={doc.isEditingExpiry}>
+                                        <div class="expiry-display">
+                                            <span class={doc.expiryClass}>{doc.formattedExpiry}</span>
+                                            <button
+                                                class="icon-btn edit-btn"
+                                                data-id={doc.Id}
+                                                onclick={handleEditExpiry}
+                                                title="Edit expiry date"
+                                            >
+                                                ✎
+                                            </button>
+                                        </div>
+                                    </template>
+                                    <template if:true={doc.isEditingExpiry}>
+                                        <div class="expiry-edit">
+                                            <input
+                                                type="date"
+                                                class="date-input"
+                                                value={doc.Expiry_Date__c}
+                                                data-id={doc.Id}
+                                                onchange={handleDateChange}
+                                            />
+                                            <button
+                                                class="icon-btn save-btn"
+                                                data-id={doc.Id}
+                                                onclick={handleSaveExpiry}
+                                                title="Save"
+                                            >✓</button>
+                                            <button
+                                                class="icon-btn cancel-btn"
+                                                data-id={doc.Id}
+                                                onclick={handleCancelExpiry}
+                                                title="Cancel"
+                                            >✕</button>
+                                        </div>
+                                    </template>
+                                </td>
+
+                                <!-- Status -->
+                                <td class="cell-status">
+                                    <span class={doc.statusClass}>{doc.Status__c}</span>
+                                </td>
+
+                                <!-- Upload -->
+                                <td class="cell-upload">
+                                    <label class="upload-label" title="Upload document">
+                                        <input
+                                            type="file"
+                                            class="file-input"
+                                            data-id={doc.Id}
+                                            onchange={handleFileUpload}
+                                        />
+                                        <span class="upload-btn">
+                                            ↑ {doc.uploadLabel}
+                                        </span>
+                                    </label>
+                                </td>
+
+                                <!-- Preview -->
+                                <td class="cell-preview">
+                                    <template if:true={doc.Document_Uploaded__c}>
+                                        <button
+                                            class="preview-btn"
+                                            data-id={doc.Id}
+                                            onclick={handlePreview}
+                                            title="Preview document"
+                                        >
+                                            Preview
+                                        </button>
+                                    </template>
+                                    <template if:false={doc.Document_Uploaded__c}>
+                                        <span class="no-preview">—</span>
+                                    </template>
+                                </td>
+
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+
+        <!-- Empty -->
+        <template if:true={isEmpty}>
+            <div class="state-wrapper empty-state">
+                <p class="state-text">No documents found for this account.</p>
+            </div>
+        </template>
+
+        <template if:true={hasAllDocumentsUploaded}>
+            <div class="all-uploaded-banner">
+                <div class="banner-header">
+                    <h2>Awaiting Approval</h2>
+                </div>
+                <div class="message-section">
+                    <p class="banner-message">
+                        All required documents have been uploaded. Your application is now awaiting approval.
+                    </p>
+                    <p class="banner-message">
+                        Once approved, you can proceed with next steps.
+                    </p>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

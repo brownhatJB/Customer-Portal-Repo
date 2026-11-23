@@ -1,0 +1,166 @@
+<template>
+    <div class="unit-screen-wrapper">
+
+        <!-- Header -->
+        <div class="unit-header">
+            <div class="header-left">
+                <h1 class="unit-name">{unit.Name}</h1>
+                <span class="unit-badge">Unit For Sale</span>
+                <p class="unit-breadcrumb">
+                    {unit.Properties__r.Name} &nbsp;·&nbsp; {unit.Name} &nbsp;·&nbsp; Floor {unit.Floor__c}
+                </p>
+            </div>
+            <button class="fav-btn" onclick={handleFavourite} aria-label="Favourite">
+                <template if:true={isFavourited}>
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="heart-icon active"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </template>
+                <template if:false={isFavourited}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="heart-icon"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </template>
+            </button>
+        </div>
+
+        <!-- Toggle Buttons: above grid, left-aligned -->
+        <div class="media-toggle">
+            <button class={imgBtnClass} onclick={showImages}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="toggle-icon"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                IMG
+            </button>
+            <button class={twodBtnClass} onclick={show2D}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="toggle-icon"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 9h8M8 12h5"/></svg>
+                2D
+            </button>
+        </div>
+
+        <!-- Main Grid: 1fr 1fr equal columns -->
+        <div class="unit-grid">
+
+            <!-- Left: Carousel / 2D -->
+            <div class="media-panel">
+                <template if:true={showImg}>
+                    <div class="carousel-container">
+                        <div class="carousel-track" style={carouselTrackStyle}>
+                            <template for:each={images} for:item="img">
+                                <div class="carousel-slide" key={img.id}>
+                                    <img src={img.url} alt={img.alt} class="carousel-image" />
+                                </div>
+                            </template>
+                        </div>
+                        <button class="carousel-btn prev" onclick={prevSlide} aria-label="Previous">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                        </button>
+                        <button class="carousel-btn next" onclick={nextSlide} aria-label="Next">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                        <div class="carousel-dots">
+                            <template for:each={images} for:item="img">
+                                <span key={img.id} class={img.dotClass} data-index={img.id} onclick={goToSlide}></span>
+                            </template>
+                        </div>
+                        <div class="price-tag">
+                            <span class="price-label">asking price</span>
+                            <span class="price-value">{formattedPrice}</span>
+                        </div>
+                    </div>
+                </template>
+
+                <template if:false={showImg}>
+                    <div class="carousel-container">
+                        <template if:true={unit.Floor_Plan__c}>
+                            <iframe src={unit.Floor_Plan__c} class="floorplan-iframe" title="Floor Plan" frameborder="0"></iframe>
+                        </template>
+                        <template if:false={unit.Floor_Plan__c}>
+                            <div class="floorplan-empty">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="fp-icon"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20M9 9v11"/></svg>
+                                <p>No floor plan available</p>
+                            </div>
+                        </template>
+                        <div class="price-tag">
+                            <span class="price-label">asking price</span>
+                            <span class="price-value">{formattedPrice}</span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Right: Info Tiles — 2x3 grid, stretches to carousel height -->
+            <div class="info-tiles">
+                <div class="tile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="tile-icon"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span class="tile-value">{unit.Bedrooms__c}</span>
+                    <span class="tile-label">Bedrooms</span>
+                </div>
+                <div class="tile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="tile-icon"><path d="M4 12h16M4 12a2 2 0 01-2-2V6a2 2 0 012-2h4v8M20 12a2 2 0 002-2V6a2 2 0 00-2-2h-4v8M4 12v6a2 2 0 002 2h12a2 2 0 002-2v-6"/></svg>
+                    <span class="tile-value">{unit.Bathrooms__c}</span>
+                    <span class="tile-label">Bathrooms</span>
+                </div>
+                <div class="tile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="tile-icon"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                    <span class="tile-value">Floor {unit.Floor__c}</span>
+                    <span class="tile-label">Level</span>
+                </div>
+                <div class="tile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="tile-icon"><rect x="2" y="10" width="20" height="10" rx="2"/><path d="M6 10V7a2 2 0 012-2h8a2 2 0 012 2v3"/><circle cx="7" cy="17" r="1"/><circle cx="17" cy="17" r="1"/></svg>
+                    <span class="tile-value">{unit.Noof_Parking__c}</span>
+                    <span class="tile-label">Parking</span>
+                </div>
+                <div class="tile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="tile-icon"><path d="M3 6h18M3 12h18M3 18h18"/><rect x="7" y="2" width="10" height="4" rx="1"/></svg>
+                    <span class="tile-value">{unit.Balconies__c}</span>
+                    <span class="tile-label">Balconies</span>
+                </div>
+                <div class="tile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="tile-icon"><path d="M3 9l9-7 9 7"/><rect x="5" y="9" width="14" height="13" rx="1"/></svg>
+                    <span class="tile-value">{unit.Properties__r.Name}</span>
+                    <span class="tile-label">Building</span>
+                </div>
+            </div>
+
+        </div>
+        <!-- END grid -->
+
+        <!-- Area Pills — full width -->
+        <div class="area-pills">
+            <div class="area-pill">
+                <span class="pill-label">Total</span>
+                <span class="pill-value">{unit.Total_Area__c} sq.ft</span>
+            </div>
+            <div class="area-pill">
+                <span class="pill-label">Internal</span>
+                <span class="pill-value">{unit.Internal_Area__c} sq.ft</span>
+            </div>
+            <div class="area-pill">
+                <span class="pill-label">Built-up</span>
+                <span class="pill-value">{unit.Built_Up_Area__c} sq.ft</span>
+            </div>
+            <div class="area-pill">
+                <span class="pill-label">Parking</span>
+                <span class="pill-value">{unit.Parking_Area__c} sq.ft</span>
+            </div>
+        </div>
+
+        <!-- Divider — full width -->
+        <div class="full-divider"></div>
+
+        <!-- Location + Buttons — full width -->
+        <div class="location-section">
+            <div class="location-info">
+                <span class="location-eyebrow">LOCATION</span>
+                <p class="location-main">{unit.Properties__r.Name}, {unit.Name}</p>
+                <p class="location-sub">S building &nbsp;·&nbsp; Floor {unit.Floor__c}</p>
+            </div>
+            <div class="action-btns">
+                <button class="action-btn" onclick={handleFlyer}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Flyer
+                </button>
+                <button class="action-btn" onclick={handleFloorPlan}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Floor Plan
+                </button>
+            </div>
+        </div>
+
+    </div>
+</template>

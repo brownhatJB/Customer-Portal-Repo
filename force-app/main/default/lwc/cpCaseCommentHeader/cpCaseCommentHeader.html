@@ -1,0 +1,76 @@
+<template>
+
+    <template if:true={caseData}>
+        <div class="header-card">
+            <div class="nav-container">
+                 <div class="back-btn" onclick={handleBack}>
+                     ← Back to Cases
+                </div>
+            </div>
+            <!-- TOP -->
+            <div class="top-bar">
+
+               
+
+                <div class="left">
+                    <div class="case-number">Case - {caseData.CaseNumber}</div>
+                    <div class="subject">{caseData.Subject}</div>
+                </div>
+
+                <div class="right">
+                    <span class={statusClass}>{caseData.Status}</span>
+                </div>
+
+            </div>
+
+   
+            <div class="meta-grid">
+
+                <div class="meta-item">
+                    <span class="icon"></span>
+                    <div>
+                        <div class="label">Category</div>
+                        <div class="value">{caseData.Type}</div>
+                    </div>
+                </div>
+
+
+
+                <div class="meta-item">
+                    <span class="icon"></span>
+                    <div>
+                        <div class="label">Created On</div>
+                        <div class="value">{createdDate}</div>
+                    </div>
+                </div>
+
+                <div class="meta-item">
+                    <span class="icon"></span>
+                    <div>
+                        <div class="label">Last Updated On</div>
+                        <div class="value">{updatedDate}</div>
+                    </div>
+                </div>
+
+                <div class="meta-item">
+                    <span class="icon"></span>
+                    <div>
+                        <div class="label">Created By</div>
+                        <div class="value">{caseData.Owner.Name}</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--  DESCRIPTION -->
+            <div class="description">
+                <div class="desc-title">Description</div>
+                <div class="desc-text">{caseData.Description}</div>
+            </div>
+
+        </div>
+    </template>
+
+    <c-cp-case-comment-section record-id={recordId}></c-cp-case-comment-section>
+
+</template>

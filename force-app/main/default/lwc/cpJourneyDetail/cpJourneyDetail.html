@@ -1,0 +1,30 @@
+<template>
+    <lightning-toast-container class="toast-component"></lightning-toast-container>
+    <div class="header-section">
+        <div class="nav-back" onclick={handleBackToEnq}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+            </svg>
+            <span>Back to Enquiries</span>
+        </div>
+        <h1 class="page-header">Journey Details</h1>
+        <div class="enq-details">
+            <div class="enq-no">{selectedEnquiry.Enquiry_Number__c}</div>
+            <template if:true={selectedEnquiry.Interested_In_Project__c}>
+                <div class="enq-project">{selectedEnquiry.Interested_In_Project__r.Name}</div>
+            </template>
+        </div>
+    </div>
+
+    <div class="journey-container">
+        <c-cp-journey-left-panel lead-record-id={enquiryId} onstageevent={handleEnquiryStage}></c-cp-journey-left-panel>
+        <c-cp-journey-stage-container 
+            current-stage={stage} 
+            enquiry-id={enquiryId}
+            contact-id={selectedEnquiry.Contact__c} 
+            onlead2opp={handleLeadToOpp} 
+            onoffercreated={handleOfferCreated}
+            onplanselected={handlePaymentPlans}>
+        </c-cp-journey-stage-container>
+    </div>
+</template>

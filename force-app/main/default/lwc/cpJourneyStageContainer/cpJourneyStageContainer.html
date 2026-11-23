@@ -1,0 +1,30 @@
+<template>
+    <div class="stage-container">
+        <template if:true={showDocumentSection}>
+            <c-cp-document-checklist record-id={contactId}></c-cp-document-checklist>
+        </template>
+        <template if:true={showVisitSection}>
+            <c-cp-site-visit record-id={enquiryId}></c-cp-site-visit>
+        </template>
+        <template if:true={showEOISection}>
+            <c-cp-e-o-i record-id={enquiryId}></c-cp-e-o-i>
+        </template>
+        <template if:true={showUnitsSection}>
+            <c-cp-unit-selection selected-project={enquiry.Interested_In_Project__c} enquiry-id={enquiryId}></c-cp-unit-selection>
+        </template>
+        <template if:true={showPaymentPlanSection}>
+            <c-cp-payment-plan enquiry-id={enquiryId}></c-cp-payment-plan>
+        </template>
+        <template if:true={showSpaSection}>
+            <template if:true={opportunity}>
+                <c-cp-spa-signature
+                    enquiry-id={enquiryId}
+                    opportunity-id={opportunity.Id}>
+                </c-cp-spa-signature>
+            </template>
+        </template>
+        <template if:true={showPaymentCompletionSection}>
+            <c-cp-payment-completion record-id={opportunity.Id} invoice-generated={opportunity.Bulk_Invoice_Generated__c}></c-cp-payment-completion>
+        </template>
+    </div>
+</template>

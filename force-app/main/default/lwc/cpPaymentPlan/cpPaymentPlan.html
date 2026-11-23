@@ -1,0 +1,169 @@
+<template>
+    <div class="page-container slds-p-around_large">
+
+        <!-- Header -->
+        <div class="top-section">
+            <div class="slds-text-heading_medium">Payment Plan Configuration</div>
+            <button class="confirm-btn" onclick={handleConfirm} disabled={isConfirmDisabled}>
+                Confirm Payment Plans
+            </button>
+        </div>
+
+        <div class="slds-grid slds-gutters">
+
+            <!-- LEFT: Offers -->
+            <div class="slds-col slds-size_4-of-12">
+                <div class="panel-card">
+
+                    <div class="panel-title">
+                        <span class="svgIcon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+                                <path d="M232,104a8,8,0,0,0,8-8V64a16,16,0,0,0-16-16H32A16,16,0,0,0,16,64V96a8,8,0,0,0,8,8,24,24,0,0,1,0,48,8,8,0,0,0-8,8v32a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V160a8,8,0,0,0-8-8,24,24,0,0,1,0-48ZM32,167.2a40,40,0,0,0,0-78.4V64H88V192H32Zm192,0V192H104V64H224V88.8a40,40,0,0,0,0,78.4Z"/>
+                            </svg>
+                        </span>
+                        Offers ({offersDetails.length})
+                    </div>
+
+                    <template for:each={offersDetails} for:item="offer">
+                        <div
+                            key={offer.Id}
+                            data-id={offer.Id}
+                            onclick={handleOfferSelect}
+                            class={offer.cardClass}
+                        >
+                            <div class="unit-header">
+                                <span class="unit-name">{offer.Unit__r.Name}</span>
+                                <span class="bhk">{offer.Unit__r.Bedrooms__c}BHK</span>
+                            </div>
+
+                            <div class="property">{offer.Unit__r.Project__r.Name}</div>
+
+                            <div class="unit-details">
+                                {offer.Unit__r.Total_Area__c} sq.ft
+                            </div>
+
+                            <div class="unit-price">
+                                <lightning-formatted-number
+                                    value={offer.Unit_Price__c}
+                                    format-style="currency">
+                                </lightning-formatted-number>
+
+                                <lightning-input
+                                    type="checkbox"
+                                    checked={offer.isChecked}
+                                    readonly
+                                    class="unit-checkbox">
+                                </lightning-input>
+                            </div>
+
+                            <template if:true={offer.selectedPlanName}>
+                                <div class="plan-chip">
+                                    ✓ {offer.selectedPlanName}
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:true={isLoadingOffers}>
+                        <div class="skeleton-card"></div>
+                        <div class="skeleton-card"></div>
+                    </template>
+
+                    <template if:true={noOffers}>
+                        <div class="empty-state">No offers found for this enquiry.</div>
+                    </template>
+
+                </div>
+            </div>
+
+            <!-- RIGHT: Payment Plans -->
+            <div class="slds-col slds-size_8-of-12">
+                <div class="panel-card">
+
+                    <div class="panel-title">
+                        <span class="svgIcon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256">
+                                <path d="M80,120h96a8,8,0,0,0,8-8V64a8,8,0,0,0-8-8H80a8,8,0,0,0-8,8v48A8,8,0,0,0,80,120Zm8-48h80v32H88ZM200,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V40A16,16,0,0,0,200,24Zm0,192H56V40H200ZM100,148a12,12,0,1,1-12-12A12,12,0,0,1,100,148Zm40,0a12,12,0,1,1-12-12A12,12,0,0,1,140,148Zm40,0a12,12,0,1,1-12-12A12,12,0,0,1,180,148Zm-80,40a12,12,0,1,1-12-12A12,12,0,0,1,100,188Zm40,0a12,12,0,1,1-12-12A12,12,0,0,1,140,188Zm40,0a12,12,0,1,1-12-12A12,12,0,0,1,180,188Z"/>
+                            </svg>
+                        </span>
+                        Configure Payment Plans
+                        <template if:true={activeOfferName}>
+                            <span class="for-label">— {activeOfferName}</span>
+                        </template>
+                    </div>
+
+                    <template if:false={selectedOfferId}>
+                        <div class="empty-state plans-empty">
+                            <div class="empty-icon">
+                                <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#0176d3" stroke-width="1.5">
+                                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+                                    <rect x="9" y="3" width="6" height="4" rx="1"/>
+                                    <path d="M9 12h6M9 16h4"/>
+                                </svg>
+                            </div>
+                            <p>Select an offer on the left to view available payment plans.</p>
+                        </div>
+                    </template>
+
+                    <template if:true={selectedOfferId}>
+
+                        <template if:true={isLoadingPlans}>
+                            <div class="skeleton-plan"></div>
+                            <div class="skeleton-plan"></div>
+                        </template>
+
+                        <template if:false={isLoadingPlans}>
+
+                            <template for:each={paymentPlans} for:item="plan">
+                                <div
+                                    key={plan.Id}
+                                    data-plan-id={plan.Id}
+                                    onclick={handlePlanSelect}
+                                    class={plan.cardClass}
+                                >
+                                    <div class="plan-checkbox-section">
+                                        <lightning-input
+                                            type="checkbox"
+                                            checked={plan.isChecked}
+                                            readonly
+                                            class="plan-checkbox">
+                                        </lightning-input>
+                                    </div>
+
+                                    <div class="plan-name">{plan.Name}</div>
+
+                                    <template if:true={plan.hasItems}>
+                                        <div class="payments-header">
+                                            <span>Installment</span>
+                                            <span>Item Name</span>
+                                            <span>Percentage</span>
+                                            <span>Milestone</span>
+                                            <span>Tentative Due</span>
+                                        </div>
+                                    </template>
+
+                                    <template for:each={plan.items} for:item="item">
+                                        <div key={item.Id} class="payment-row">
+                                            <span>{item.name}</span>
+                                            <span>{item.itemName}</span>
+                                            <span>{item.percentage}%</span>
+                                            <span>{item.milestoneName}</span>
+                                            <span>{item.tentativeDueDate}</span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+
+                            <template if:true={noPlans}>
+                                <div class="empty-state">No payment plans available for this unit.</div>
+                            </template>
+
+                        </template>
+                    </template>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</template>

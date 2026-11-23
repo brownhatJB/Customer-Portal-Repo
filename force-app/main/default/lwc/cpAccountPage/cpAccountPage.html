@@ -1,0 +1,51 @@
+<template>
+    <div class="page-header">
+        <lightning-toast-container class="toast-component"></lightning-toast-container>
+        <h1>My Account</h1>
+    </div>
+    <div class="account-wrapper">
+
+        <!-- Top Nav Panel -->
+        <div class="panels-container">
+            <nav class="top-panel">
+                <div class="nav-brand">
+                    <span class="brand-dot"></span>
+                    <span class="brand-label">My Account</span>
+                </div>
+                <ul class="nav-list">
+                    <template for:each={navItems} for:item="item">
+                        <li key={item.id} class="nav-item">
+                            <button
+                                class={item.cssClass}
+                                data-id={item.id}
+                                onclick={handleNavClick}
+                            >
+                                <span class="nav-label">{item.label}</span>
+                                <span class="nav-indicator"></span>
+                            </button>
+                        </li>
+                    </template>
+                </ul>
+            </nav>
+
+            <!-- Content Panel -->
+            <main class="content-panel">
+                <template if:true={isProfile}>
+                    <c-cp-profile></c-cp-profile>
+                </template>
+                <template if:true={isDocuments}>
+                    <c-cp-document-checklist record-id={contactId}></c-cp-document-checklist>
+                </template>
+                <template if:true={isEnquiries}>
+                    <c-cp-past-enquiries></c-cp-past-enquiries>
+                </template>
+                <template if:true={isOffers}>
+                    <c-cp-past-offers></c-cp-past-offers>
+                </template>
+                <template if:true={isPurchases}>
+                    <c-cp-unit-sale></c-cp-unit-sale>
+                </template>
+            </main>
+        </div>
+    </div>
+</template>

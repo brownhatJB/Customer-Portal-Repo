@@ -1,0 +1,58 @@
+<template>
+
+    <div class="container">
+
+        <!--  LEFT PANEL -->
+        <div class="left-panel">
+
+                  <h2 class="heading"><b>My Journey Progress</b></h2><br>
+
+            <template for:each={stages} for:item="s">
+                <div key={s.value} class="step-container">
+
+                    <div class="step">
+                        <div class={s.circleClass}></div>
+                        <div class="label">{s.label}</div>
+                    </div>
+
+                    <template if:false={s.isLast}>
+                        <div class={s.lineClass}></div>
+                    </template>
+
+                </div>
+            </template>
+
+        </div>
+         </div>
+
+</template>
+
+        <!--  RIGHT PANEL -->
+        <!-- <div class="right-panel">
+
+            <div class="header">
+                <span>Enquiry:</span>
+                <strong>{leadRecord.Enquiry_Number__c}</strong>
+            </div> -->
+
+            <!-- <template if:true={isSiteVisit}>
+                <c-cp-journey-site-visit lead-id={leadRecord.Id}></c-cp-journey-site-visit>
+            </template> -->
+
+            <!-- <template if:true={isKyc}>
+                <c-kyc-verification lead-id={leadRecord.Id}></c-kyc-verification>
+            </template>
+
+            <template if:true={isAgreement}>
+                <c-sale-agreement lead-id={leadRecord.Id}></c-sale-agreement>
+            </template>
+
+            <template if:true={isRegistration}>
+                <c-registration lead-id={leadRecord.Id}></c-registration>
+            </template>
+
+            <template if:true={isHandover}>
+                <c-handover lead-id={leadRecord.Id}></c-handover>
+            </template> -->
+
+        <!-- </div> -->

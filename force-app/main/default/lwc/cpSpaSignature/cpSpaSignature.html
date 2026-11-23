@@ -1,0 +1,73 @@
+<template>
+
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+
+    <template if:true={offers.length}>
+
+        <div class="offer-container">
+
+            <template for:each={offers} for:item="offer">
+
+                <div key={offer.Id} class="offer-card">
+
+                    <div class="title">
+                        {offer.EnquiryNo}
+                    </div>
+
+                    <div>
+                        Unit: {offer.UnitName}
+                    </div>
+
+                    <div>
+                        Payment Plan: {offer.PlanName}
+                    </div>
+
+                    <!-- SPA Checkbox -->
+                    <template if:false={offer.hasSPA}>
+                            <lightning-input
+                                type="checkbox"
+                                label="Generate SPA"
+                                data-id={offer.Id}
+                                checked={offer.Generate_SPA_From_Portal__c}
+                                onchange={handleSpa}>
+                            </lightning-input>
+                        </template>
+
+                    <!-- FILE SECTION -->
+                    <template if:true={offer.hasSPA}>
+                         <div class="file-box">
+                    <button class="spa-btn" data-url={offer.spaUrl} onclick={openFile}>
+                    Preview SPA
+                </button>
+                    </div>
+                    </template>
+                    <template if:false={offer.hasSPA}>
+                <div class="no-spa">
+                    SPA not generated yet
+                </div>
+            </template>
+
+                </div>
+
+            </template>
+
+        </div>
+
+    </template>
+
+    <template if:true={noOffers}>
+        <div>No SPA eligible offers found</div>
+    </template>
+
+<template if:true={allSpaGenerated}>
+   <button
+    class="spa-btn"
+    onclick={handleProceedStage}
+    disabled={isButtonDisabled}>
+    Proceed to Next Stage
+</button>
+</template>
+
+</template>

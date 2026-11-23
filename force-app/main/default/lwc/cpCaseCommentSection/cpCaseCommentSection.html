@@ -1,0 +1,202 @@
+<template>
+ <div class="container">
+
+     <!-- INPUT (ONLY WHEN NOT REPLYING) -->
+    <!-- <template if:false={replyToId}> -->
+     
+        <div class="input-box-comment">
+
+                         <textarea
+                                class="slds-textarea commentBox"
+                                oninput={handleMainChange}
+                                onfocus={handleFocus}
+                                placeholder="Write a comment...">
+                                {newComment}
+                            </textarea>       
+                            
+                            <template if:true={showSuggestions}>
+        <template if:false={isReplyMode}>
+            <div class="dropdown">
+                <template for:each={users} for:item="u">
+                    <div key={u.Id} data-name={u.Name} onclick={handleUserSelect} class="item">
+                        {u.Name}
+                    </div>
+                </template>
+            </div>
+        </template>
+    </template>
+        </div>
+         
+               <div>
+            
+            <div >
+                <button type="button"
+                        onclick={handlePost}
+                        class="post-btn">
+                    Post
+                </button>
+            </div>
+
+        </div>
+
+    <!-- COMMENTS -->
+    <template for:each={comments} for:item="c">
+        <div key={c.Id} class="comment">
+
+            <div class="iconn">
+                {c.initials}
+            </div>
+
+            <div class="content">
+
+                <div class="name-row">
+
+    <div class="name">
+        {c.CreatedBy.Name}
+    </div>
+
+    <div class="time">
+        {c.createdAt}
+    </div>
+
+</div>
+              <!-- TEXT -->
+                <div class="text" data-value={c.Comment_Text__c} lwc:dom="manual"></div>
+
+                <!-- REPLY BUTTON -->
+                <div class="reply-btn"
+                     data-id={c.Id}
+                     onclick={handleReply}>
+                    Reply
+                </div>
+
+                <!-- INLINE REPLY (PARENT) -->
+                <template if:true={c.showReply}>
+                    <div class="input-box inline">
+
+                    <textarea
+                    class="slds-textarea"
+                    oninput={handleReplyChange}
+                    onfocus={handleFocus}
+                    placeholder="Write a reply...">
+                    {replyComment}
+                   </textarea>  
+                   
+                   <template if:true={showSuggestions}>
+                <div class="dropdown">
+
+                    <template for:each={users} for:item="u">
+                        <div key={u.Id}
+                             data-name={u.Name}
+                             onclick={handleUserSelect}
+                             class="item">
+                            {u.Name}
+                        </div>
+                    </template>
+
+                </div>
+            </template>
+
+                
+                        <button class="post-btn"
+                                onclick={handlePost}>
+                            Post
+                        </button>
+
+                    </div>
+                </template>
+
+                <!-- REPLIES -->
+                <template for:each={c.replies} for:item="r">
+
+                    <div key={r.Id} class="reply">
+
+                        <div class="iconn small">
+                            {r.initials}
+                        </div>
+
+                        <div>
+                         <div class="name-row">
+                        <div class="name">
+                            {r.CreatedBy.Name}
+                        </div>
+
+                        <div class="time">
+                            {r.createdAt}
+                        </div>
+
+                    </div>
+
+                            <div class="text" data-value={r.Comment_Text__c} lwc:dom="manual"></div>
+
+                            <!-- Reply button -->
+                            <div class="reply-btn"
+                                 data-id={r.Id}
+                                 onclick={handleReply}>
+                                Reply
+                            </div>
+
+                            <!-- INLINE REPLY (LEVEL 1) -->
+                            <template if:true={r.showReply}>
+                                <div class="input-box inline">
+
+                            <textarea
+                                class="slds-textarea"
+                                oninput={handleReplyChange}
+                                placeholder="Write a reply...">
+                                {replyComment}
+                            </textarea>                                                
+
+                                    <button class="post-btn"
+                                            onclick={handlePost}>
+                                        Post
+                                    </button>
+
+                                </div>
+                            </template>
+
+                            <!-- NESTED REPLIES -->
+                            <template for:each={r.replies} for:item="r2">
+
+                                <div key={r2.Id} class="reply-2">
+
+                                    <div class="iconn">
+                                        {r2.initials}
+                                    </div>
+
+                                    <div>
+
+                                        <div class="name-row">
+
+                                    <div class="name">
+                                        {r2.CreatedBy.Name}
+                                    </div>
+
+                                    <div class="time">
+                                        {r2.createdAt}
+                                    </div>
+
+                                </div>
+
+                                        <div class="text" data-value={r2.Comment_Text__c} lwc:dom="manual"></div>
+                            
+                                    </div>
+
+                                </div>
+
+                            </template>
+
+                        </div>
+                    </div>
+
+                </template>
+
+            </div>
+        </div>
+    </template>
+
+   
+    <!-- </template> -->
+
+</div>
+</template>

@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Site Visit Stage">
+
+        <div class="slds-p-around_medium">
+
+            <p><b>Lead Id:</b> {leadId}</p>
+
+            <lightning-input
+                label="Site Visit Notes"
+                placeholder="Enter notes here">
+            </lightning-input>
+
+            <br/>
+
+            <lightning-button
+                label="Mark Visit Completed"
+                variant="brand"
+                onclick={handleComplete}>
+            </lightning-button>
+
+        </div>
+
+    </lightning-card>
+</template>

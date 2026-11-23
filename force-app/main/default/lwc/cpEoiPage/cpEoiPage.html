@@ -1,0 +1,50 @@
+<template>
+
+    <!-- Guest User -->
+    <template if:true={isGuestUser}>
+
+        <template if:false={guestVerified}>
+            <c-cp-eoi-guest-login
+                onverified={handleGuestVerified}>
+            </c-cp-eoi-guest-login>
+        </template>
+
+        <template if:true={guestVerified}>
+
+            <template if:false={showDetails}>
+                <c-cp-eoi-list
+                    onview={handleView} guest-email={verifiedGuestEmail}>
+                </c-cp-eoi-list>
+            </template>
+
+            <template if:true={showDetails}>
+                <c-cp-eoi-details
+                    eoi-id={selectedEoiId}
+                    onback={handleBack}>
+                </c-cp-eoi-details>
+            </template>
+
+        </template>
+
+    </template>
+
+
+    <!-- Authenticated User -->
+    <template if:false={isGuestUser}>
+
+        <template if:false={showDetails}>
+            <c-cp-eoi-list
+                onview={handleView}>
+            </c-cp-eoi-list>
+        </template>
+
+        <template if:true={showDetails}>
+            <c-cp-eoi-details
+                eoi-id={selectedEoiId}
+                onback={handleBack}>
+            </c-cp-eoi-details>
+        </template>
+
+    </template>
+
+</template>

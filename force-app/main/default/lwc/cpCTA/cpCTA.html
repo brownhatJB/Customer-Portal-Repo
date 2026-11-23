@@ -1,0 +1,85 @@
+<template>
+    <section class="cta-section">
+        <div class="cta-container">
+
+            <!-- LEFT CONTENT -->
+            <div class="cta-copy">
+                <span class="cta-eyebrow">Let's Talk About Home</span>
+                <h2>
+                    Discover your next<br />
+                    <span class="gold">dream home</span>
+                </h2>
+                <p>
+                    Schedule a private walkthrough with our experts.
+                    No spam. No pressure.
+                </p>
+            </div>
+
+            <!-- RIGHT FORM -->
+             <div class="cta-form">
+                <template if:false={isSubmitted}>
+                    <div class="form-grid">
+
+                        <div class="form-field">
+                            <label>First Name <span class="required">*</span></label>
+                            <input type="text" value={firstName}
+                                onchange={handleChange} data-field="firstName" />
+                        </div>
+
+                        <div class="form-field">
+                            <label>Last Name <span class="required">*</span></label>
+                            <input type="text" value={lastName}
+                                onchange={handleChange} data-field="lastName" />
+                        </div>
+
+                        <div class="form-field">
+                            <label>Email <span class="required">*</span></label>
+                            <input type="email" value={email}
+                                onchange={handleChange} data-field="email" />
+                        </div>
+
+                        <div class="form-field">
+                            <label>Mobile <span class="required">*</span></label>
+                            <input type="tel" value={phone}
+                                onchange={handleChange} data-field="phone" />
+                        </div>
+
+                        <div class="form-field">
+                            <label>Company</label>
+                            <input type="text" value={company}
+                                onchange={handleChange} data-field="company" />
+                        </div>
+
+                    </div>
+
+                    <div class="form-field">
+                        <label>Message</label>
+                        <textarea
+                            value={description}
+                            onchange={handleChange}
+                            data-field="description">
+                        </textarea>
+                    </div>
+
+                    <template if:true={errorMessage}>
+                        <div class="error-message">{errorMessage}</div>
+                    </template>
+
+                    <button class="cta-button" onclick={handleSubmit}>
+                        Request Enquiry
+                    </button>
+                </template>
+
+                <template if:true={isSubmitted}>
+                    <div class="success-state">
+                        <div class="check">✓</div>
+                        <h3>Enquiry Requested</h3>
+                        <p>
+                            Our team will contact you shortly to confirm the visit.
+                        </p>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </section>
+</template>

@@ -1,0 +1,62 @@
+:host{
+    font-family: apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.panel-card {
+    background: white;
+    padding: 18px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.panel-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.payments-header,
+.payment-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    align-items: center;
+}
+
+.payments-header {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 10px 14px;
+    color: white;
+    background: #bfab8e;
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
+
+.payments-header div {
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.payment-row {
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid #eee;
+    margin-bottom: 6px;
+    transition: background 0.2s ease;
+}
+
+.payment-row:nth-child(even) {
+    background: #f8f8f8;
+}
+
+.payment-row:hover {
+    background: #f1f1f1;
+}
+
+.empty-state {
+    padding: 24px;
+    text-align: center;
+    color: #64748B;
+}

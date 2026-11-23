@@ -1,0 +1,412 @@
+:host {
+    --navy-dark: #1b2533;
+    --navy-light: #f0f3f6;
+    --navy-accent: #2c3e50;
+    --border-color: #e2e8f0;
+    --text-muted: #64748b;
+    --primary-blue: #2563eb;
+    --primary-blue-hover: #1d4ed8;
+
+    /* SLDS input overrides */
+    --slds-c-input-color-border: #e2e8f0;
+    --slds-c-input-radius-border: 10px;
+}
+
+/* Page Layout */
+.login-container {
+    min-height: 100vh;
+    padding: 40px 16px;
+    background: radial-gradient(circle at top, #f8fafc 0%, #edf2f7 100%);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-wrapper {
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Header Banner */
+.header-banner {
+    background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 16px;
+    padding: 24px 28px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px -2px rgba(27, 37, 51, 0.04), 0 2px 4px -1px rgba(27, 37, 51, 0.02);
+    position: relative;
+    overflow: hidden;
+}
+
+.header-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--navy-dark), var(--primary-blue));
+}
+
+.header-banner h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy-dark);
+    letter-spacing: -0.3px;
+}
+
+/* Login Card */
+.login-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 36px 32px;
+    box-shadow: 0 10px 25px -5px rgba(27, 37, 51, 0.05), 0 8px 10px -6px rgba(27, 37, 51, 0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-subtitle {
+    margin: 0 0 28px 0;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.form,
+.otp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Action Buttons */
+.continue-button,
+.verify-button {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(180deg, var(--navy-dark) 0%, #111827 100%);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    margin-top: 8px;
+    box-shadow: 0 4px 12px rgba(27, 37, 51, 0.15);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.continue-button:hover:not(:disabled),
+.verify-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(27, 37, 51, 0.22);
+    background: linear-gradient(180deg, #243042 0%, #0b1017 100%);
+}
+
+.continue-button:active:not(:disabled),
+.verify-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.continue-button:disabled,
+.verify-button:disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.resend-button {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px;
+    text-align: center;
+    transition: color 0.2s ease;
+}
+
+.resend-button:hover {
+    color: var(--navy-dark);
+    text-decoration: underline;
+}
+
+/* Error Messages */
+.error-message {
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid #fecaca;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* OTP Modal Overlay */
+.otp-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 16px;
+    box-sizing: border-box;
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* OTP Modal Container */
+.otp-modal {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 36px 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Modal Close Button */
+.close-button {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--navy-light);
+    border: none;
+    font-size: 20px;
+    line-height: 1;
+    color: #64748b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.close-button:hover {
+    background: #e2e8f0;
+    color: var(--navy-dark);
+}
+
+/* Modal Headers */
+.otp-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.otp-header h2 {
+    margin: 0 0 10px 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy-dark);
+    letter-spacing: -0.3px;
+}
+
+.otp-header p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--text-muted);
+}
+
+.otp-email {
+    margin-top: 6px !important;
+    font-weight: 600;
+    color: var(--navy-dark) !important;
+    word-break: break-all;
+}
+
+/* 6-Cell OTP Input Grid */
+.otp-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.otp-cells-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 6px 0;
+}
+
+.otp-cell {
+    width: 48px;
+    height: 56px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy-dark);
+    background: #f8fafc;
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.15s ease;
+}
+
+.otp-cell:focus {
+    background: #ffffff;
+    border-color: var(--navy-dark);
+    box-shadow: 0 0 0 3px rgba(27, 37, 51, 0.12);
+    transform: translateY(-1px);
+}
+
+/* Success Screen Styling */
+.success-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 12px;
+    text-align: center;
+    animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.success-circle {
+    width: 84px;
+    height: 84px;
+    background-color: #22c55e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.4);
+    border: 6px solid #e6f4ea;
+}
+
+.checkmark-icon {
+    width: 40px;
+    height: 40px;
+    stroke: #ffffff;
+}
+
+.success-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--navy-dark, #1b2533);
+    margin: 0 0 8px 0;
+    letter-spacing: -0.3px;
+}
+
+.success-message {
+    font-size: 14px;
+    color: var(--text-muted, #64748b);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Timer Layout & Styling */
+.otp-timer {
+    text-align: center;
+    margin-top: 8.5px;
+    margin-bottom: 8.5px;
+    font-size: 16px;
+    color: var(--text-muted);
+}
+
+.otp-timer strong {
+    color: var(--navy-dark);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    margin-left: 6px;
+}
+
+/* Expired State Styling */
+.expired-text {
+    color: #e53e3e;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 24px 12px;
+    }
+
+    .login-card,
+    .otp-modal {
+        padding: 28px 20px;
+        border-radius: 14px;
+    }
+
+    .header-banner {
+        padding: 18px 20px;
+    }
+
+    .header-banner h1 {
+        font-size: 19px;
+    }
+
+    .otp-cell {
+        width: 42px;
+        height: 48px;
+        font-size: 18px;
+    }
+
+    .otp-timer {
+        font-size: 12px;
+        margin-top: 12px;
+        margin-bottom: 12px;
+    }
+
+    .otp-timer strong {
+        font-size: 13px;
+    }
+
+    .success-circle {
+        width: 72px;
+        height: 72px;
+    }
+
+    .checkmark-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .success-title {
+        font-size: 21px;
+    }
+}

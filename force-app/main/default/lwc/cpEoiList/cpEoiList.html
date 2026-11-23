@@ -1,0 +1,290 @@
+<template>
+
+    <!-- EOI LIST -->
+    <template if:false={showDetails}>
+
+        <div class="eoi-container">
+
+            <!-- Banner Header -->
+            <div class="top-banner">
+                <h1>Expression of Interest</h1>
+            </div>
+
+            <div class="dashboard-grid">
+
+                <!-- Sidebar Filter -->
+               <aside class="sidebar-card">
+                    <div class="filter-header">
+                        <div class="icon-box">
+                            <lightning-icon
+                                icon-name="utility:filter"
+                                size="x-small">
+                            </lightning-icon>
+                        </div>
+
+                        <div>
+                            <h2>Filter EOIs</h2>
+                            <p>Refine your list</p>
+                        </div>
+                    </div>
+
+                    <!-- Project Filter -->
+                    <div class="form-group">
+                        <label class="field-label">
+                            <lightning-icon
+                                icon-name="utility:company"
+                                size="xx-small">
+                            </lightning-icon>
+                            PROJECT NAME
+                        </label>
+
+                        <select
+                            class="custom-select"
+                            value={selectedProject}
+                            onchange={handleProjectFilter}>
+
+                            <option value="">All Projects</option>
+
+                            <template
+                                for:each={projectFilterOptions}
+                                for:item="project">
+
+                                <option
+                                    key={project.value}
+                                    value={project.value}>
+                                    {project.label}
+                                </option>
+
+                            </template>
+                        </select>
+                    </div>
+
+                    <!-- Status Filter -->
+                    <div class="form-group">
+                        <label class="field-label">
+                            <lightning-icon
+                                icon-name="utility:choice"
+                                size="xx-small">
+                            </lightning-icon>
+                            STATUS
+                        </label>
+
+                        <select
+                            class="custom-select"
+                            value={selectedStatus}
+                            onchange={handleStatusFilter}>
+
+                            <option value="">All Statuses</option>
+
+                            <template
+                                for:each={statusFilterOptions}
+                                for:item="status">
+
+                                <option
+                                    key={status.value}
+                                    value={status.value}>
+                                    {status.label}
+                                </option>
+
+                            </template>
+                        </select>
+                    </div>
+
+                    <button
+                        class="btn btn-navy full-width"
+                        onclick={handleApplyFilters}>
+                        Apply Filters
+                    </button>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="main-card">
+
+                    <div class="content-header">
+
+                        <div class="header-title-group">
+                            <div class="icon-box">
+                                <lightning-icon
+                                    icon-name="utility:description"
+                                    size="x-small">
+                                </lightning-icon>
+                            </div>
+
+                            <div>
+                                <h2>My EOIs</h2>
+                                <p>
+                                    Manage and view your submitted Expressions of Interest
+                                </p>
+                            </div>
+                        </div>
+                       <template if:false={hideCreateEoi}>
+                            <div class="action-group">
+                                <button class="btn btn-navy" onclick={handleNewEOI}>
+                                    + Add New EOI
+                                </button>
+                            </div>
+                        </template>
+
+
+                        <template if:true={hideCreateEoi}>
+                            <div class="eoi-login-message">
+                                Please check your email to set your credentials and log in to your account to create new EOI or proceed with the existing EOI.
+                            </div>
+                        </template>
+
+                    </div>
+
+                    <!-- Loading -->
+                    <template if:true={isLoading}>
+                        <div class="loading-container">
+                            <lightning-spinner
+                                alternative-text="Loading EOIs"
+                                size="medium">
+                            </lightning-spinner>
+                        </div>
+                    </template>
+
+                    <!-- Error -->
+                    <template if:true={error}>
+                        <div class="error-message">
+                            {error}
+                        </div>
+                    </template>
+
+                    <!-- Empty -->
+                    <template if:true={showNoEOI}>
+                        <div class="empty-state">
+                            <h2>No Expression of Interest found</h2>
+                            <p>
+                                You don't have any Expression of Interest yet.
+                            </p>
+
+                            <button
+                                class="btn btn-navy"
+                                onclick={handleNewEOI}>
+                                + New EOI
+                            </button>
+                        </div>
+                    </template>
+
+                    <!-- EOI Table -->
+                    <template if:true={hasEOIs}>
+                        <div class="table-responsive">
+
+                            <table class="eoi-table">
+
+                                <thead>
+                                    <tr>
+                                        <th>EOI DETAILS</th>
+                                        <th>DATE SUBMITTED</th>
+                                        <th>PROJECT</th>
+                                        <th>STATUS</th>
+                                        <th class="text-right">ACTIONS</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <template
+                                        for:each={filteredEOIs}
+                                        for:item="eoi">
+
+                                        <tr key={eoi.eoiId}>
+
+                                            <td>
+                                                <div class="cell-with-icon">
+                                                    <div class="item-icon">
+                                                        <lightning-icon
+                                                            icon-name="utility:home"
+                                                            size="x-small">
+                                                        </lightning-icon>
+                                                    </div>
+
+                                                    <span class="eoi-number">
+                                                        {eoi.eoiNumber}
+                                                    </span>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="date-cell">
+                                                    <span class="main-date">
+                                                        {eoi.submittedDate}
+                                                    </span>
+
+                                                    <span class="sub-time">
+                                                        {eoi.submittedTime}
+                                                    </span>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="cell-with-icon">
+                                                    <div class="item-icon">
+                                                        <lightning-icon
+                                                            icon-name="utility:company"
+                                                            size="x-small">
+                                                        </lightning-icon>
+                                                    </div>
+
+                                                    <span class="eoi-number">
+                                                        {eoi.projectName}
+                                                    </span>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <span class={eoi.statusClass}>
+                                                    {eoi.status}
+                                                </span>
+                                            </td>
+
+                                            <td class="text-right">
+                                               <div class="action-links">
+                                                <button
+                                                    class="link-btn primary"
+                                                    data-id={eoi.eoiId}
+                                                    onclick={handleView}>
+                                                    <span>View</span>
+                                                </button>
+
+                                                <template if:true={eoi.canCancel}>
+                                                <button
+                                                    class="link-btn danger"
+                                                    data-id={eoi.eoiId}
+                                                    onclick={handleCancel}>
+                                                    <span>Cancel</span>
+                                                </button>
+                                                </template>
+                                            </div>
+                                            </td>
+
+                                        </tr>
+
+                                    </template>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    </template>
+
+                </main>
+
+            </div>
+        </div>
+
+        <!-- Create EOI Modal -->
+        <template if:true={showCreateEOIModal}>
+            <c-cp-create-eoi-modal
+                guest-email={guestEmail}
+                onclose={handleCloseModal}
+                oncreated={handleEOICreated}
+                 is-guest={isGuest}>
+            </c-cp-create-eoi-modal>
+        </template>
+
+    </template>
+
+</template>

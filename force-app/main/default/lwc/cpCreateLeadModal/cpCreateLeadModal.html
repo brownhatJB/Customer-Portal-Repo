@@ -1,0 +1,167 @@
+<template>
+    <template if:true={isOpen}>
+
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+
+                <!-- HEADER -->
+                <header class="slds-modal__header">
+                    <h2>Create Enquiry</h2>
+                </header>
+
+                <!-- CONTENT -->
+                <div class="slds-modal__content">
+                    <template if:true={showSuccessToast}>
+                <div class="success-toast">
+                    Enquiry sent successfully
+                </div>
+            </template>
+                    <!-- ERROR -->
+                    <template if:true={showError}>
+                        <div class="error-message">
+                            <svg class="error-icon" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 
+                                         10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                            </svg>
+                            <span>{errorMessage}</span>
+                        </div>
+                    </template>
+
+                    <form onsubmit={handleSubmit}>
+
+                        <div class="form-grid">
+
+                            <!-- DYNAMIC FIELDS -->
+                            <template for:each={fields} for:item="f">
+                                <div key={f.apiName} class="form-group">
+
+                                    <label>
+                                        {f.label}
+                                        <template if:true={f.required}>*</template>
+                                    </label>
+
+                                    <template if:true={f.isPicklist}>
+                                        <select name={f.apiName} value={f.value} onchange={handleChange}>
+                                            <option value="">-- Select --</option>
+
+                                            <template for:each={f.picklistValues} for:item="val">
+                                                <option key={val} value={val}>
+                                                    {val}
+                                                </option>
+                                            </template>
+                                        </select>
+                                    </template>
+
+                                    <template if:false={f.isPicklist}>
+                                        <input type={f.inputType}
+                                            name={f.apiName}
+                                            value={f.value}
+                                            required={f.required}
+                                            pattern={f.pattern}
+                                            title={f.patternMessage}
+                                            readonly={f.isDisabled}
+                                            onchange={handleChange}/>
+                                    </template>
+
+                                </div>
+                            </template>
+
+                            <!-- PROJECT -->
+                            <div class="form-group full-width">
+                                <label>Project</label>
+                                <input value={projectName} readonly />
+                            </div>
+
+                    
+                            <template if:false={isBrokerPortal}>
+                                <div class="form-group full-width toggle-container">
+                                    <span class="toggle-label">Add Broker</span>
+
+                                    <label class="toggle-switch">
+                                        <input type="checkbox"
+                                            checked={isBrokerEnabled}
+                                            onchange={handleBrokerToggle}/>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </template>
+
+
+                            <template if:true={isBrokerSectionVisible}>
+
+                                <template if:false={isBrokerPortal}>
+                                <div class="form-group">
+                                    <label>Broker Account *</label>
+
+                                    <select value={brokerAccountId}
+                                            onchange={handleBrokerAccountChange}>
+
+                                        <option value="">Select</option>
+
+                                        <template for:each={brokerAccountOptions} for:item="acc">
+                                            <option key={acc.value} value={acc.value}>
+                                                {acc.label}
+                                            </option>
+                                        </template>
+
+                                    </select>
+                                </div>
+                            </template>
+
+                                <div class="form-group">
+                                    <label>Broker Agent *</label>
+                                    <select value={brokerAgentId}
+                                        onchange={handleBrokerAgentChange}
+                                        disabled={brokerAgentDisabled}
+                                        required>
+
+                                        <option value="">Select</option>
+
+                                        <template for:each={brokerAgentOptions} for:item="a">
+                                            <option key={a.value} value={a.value}>
+                                                {a.label}
+                                            </option>
+                                        </template>
+
+                                    </select>
+                                </div>
+
+                            </template>
+
+                        </div>
+
+                        <!-- BUTTONS -->
+                        <div class="btn-row">
+
+                            <button type="button"
+                                onclick={handleClose}
+                                class="cancel-btn">
+                                Cancel
+                            </button>
+
+                            <button type="submit"
+                                class="save-btn"
+                                disabled={isLoading}>
+
+                                <template if:true={isLoading}>
+                                    Saving...
+                                </template>
+                                <template if:false={isLoading}>
+                                    Save
+                                </template>
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+</template>

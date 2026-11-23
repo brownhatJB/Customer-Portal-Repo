@@ -1,0 +1,89 @@
+<template>
+
+    <section class="backdrop">
+
+        <template if:true={showToast}>
+                    <div class="custom-toast">
+                        OTP resent successfully
+                    </div>
+        </template>
+
+
+        <div class="modal">
+
+            <h2 class="title">OTP Verification</h2>
+
+            <p class="subtitle">
+                Enter 6-digit OTP
+            </p>
+
+            <!-- OTP INPUT -->
+            <input
+                type="text"
+                maxlength="6"
+                class="otp-input"
+                value={enteredOTP}
+                oninput={handleOtpChange}
+                placeholder="Enter OTP"
+                disabled={otpExpired}
+            />
+
+            <!-- OTP ERROR -->
+            <template if:true={otpError}>
+
+                <div class="error-alert">
+
+                    {otpError}
+
+                </div>
+
+            </template>
+
+            <!-- TIMER -->
+            <div class="timer-section">
+
+                <template if:false={otpExpired}>
+                    <p class="timer-text">
+                        OTP expires in {timerText}
+                    </p>
+                </template>
+
+                <template if:true={otpExpired}>
+                    <p class="expired-text">
+                        OTP expired
+                    </p>
+
+                    <button
+                        class="btn"
+                        onclick={handleResendOtp}>
+                        Resend OTP
+                    </button>
+                </template>
+
+                
+            </div>
+
+            <!-- VERIFY -->
+            <button
+                class="btn"
+                onclick={handleVerify}
+                disabled={isDisabled}>
+
+                Verify
+
+            </button>
+
+            <!-- CANCEL -->
+            <button
+                class="link"
+                onclick={handleClose}>
+
+                Cancel
+
+            </button>
+
+        </div>
+
+    </section>
+
+</template>

@@ -1,0 +1,129 @@
+<template>
+    <!-- Back button -->
+    <template if:true={showBackButton}>
+        <button class="headerButton backButton" onclick={onBackButtonClick}>
+            <lightning-icon icon-name="utility:back" variant="inverse" size="x-small"></lightning-icon>
+        </button>
+    </template>
+
+    <!-- Header menu -->
+    <section class={menuClass}>
+        <template if:true={showMenuButton}>
+            <!-- Menu button -->
+            <button class="headerButton menuButton" onclick={onMenuButtonClick}>
+                <lightning-icon icon-name="utility:threedots_vertical" variant="inverse" size="x-small"></lightning-icon>
+            </button>
+        </template>
+
+        <!-- Menu options-->
+        <section class="optionsMenu slds-dropdown slds-dropdown_left slds-nubbin_top-left">
+    <ul class="slds-dropdown__list">
+        <!-- Bot menu options -->
+         <template for:each={visibleOptions} for:item="option">
+        <template for:each={chatbotOptionsMenu} for:item="option">
+            <li class="slds-dropdown__item" key={option.optionIdentifier}>
+                <!-- Use data-id for cleaner data retrieval in LWC controllers -->
+                <button class="chatbotMenuOption"
+                        data-id={option.optionIdentifier}
+                        onclick={onMenuOptionClick}>
+                    <span>{option.title}</span>
+                </button>
+            </li>
+            </template>
+        </template>
+
+        <!-- Static Create Enquiry Option -->
+        <li class="slds-dropdown__item">
+        <button class="chatbotMenuOption"
+                data-id="CREATE_ENQUIRY"
+                onclick={onMenuOptionClick}>
+
+            <svg class="menuIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14"></path>
+                <path d="M5 12h14"></path>
+            </svg>
+
+            <span>Create Enquiry</span>
+        </button>
+        </li>
+
+        <li class="slds-dropdown__item">
+        <button class="chatbotMenuOption"
+                data-id="SCHEDULE_APPOINTMENT"
+                onclick={onMenuOptionClick}>
+
+            <svg class="menuIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+
+            <span>Schedule Appointment</span>
+        </button>
+        </li>
+
+        <li class="slds-dropdown__item">
+        <button class="chatbotMenuOption"
+                data-id="SHOW_UNITS"
+                onclick={onMenuOptionClick}>
+
+            <svg class="menuIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7"></path>
+                <path d="M9 22V12h6v10"></path>
+                <path d="M21 22H3"></path>
+            </svg>
+
+            <span>Show Available Units</span>
+        </button>
+        </li>
+
+         <li class="slds-dropdown__item">
+        <button class="chatbotMenuOption"
+                data-id="CONNECT_EMPLOYEE"
+                onclick={onMenuOptionClick}>
+
+            <svg class="menuIcon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14"></path>
+                <path d="M5 12h14"></path>
+            </svg>
+
+            <span>Contact customer care employee</span>
+        </button>
+        </li>
+
+        <!-- End chat option -->
+        <li class="slds-dropdown__item">
+            <button class="chatbotMenuOption"
+                    onclick={onEndChatClick}>
+                <span class="slds-text-color_error">End Chat</span>
+            </button>
+        </li>
+   
+    </ul>
+</section>
+    </section>
+
+    <!-- Header logo -->
+   <div class="headerLogo">
+     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20"  viewBox="0 0 24 24" fill="none"  stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 10.5L12 3l9 7.5"></path>
+        <path d="M5 9.5V21h14V9.5"></path>
+        <path d="M9 21v-6h6v6"></path>
+    </svg>
+</div>
+    <!-- Header text -->
+    <h2>PropertyFlex Concierge</h2>
+
+    <!-- Minimize button -->
+    <button class="headerButton minimizeButton" onclick={onMinimizeButtonClick}>
+        <lightning-icon icon-name="utility:chevrondown" variant="inverse" size="x-small"></lightning-icon>
+    </button>
+
+    <!-- Close button -->
+    <template if:true={showCloseButton}>
+        <button class="headerButton closeButton" onclick={onMinimizeButtonClick}>
+            <lightning-icon icon-name="utility:close" variant="inverse" size="x-small"></lightning-icon>
+        </button>
+    </template>
+</template>

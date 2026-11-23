@@ -1,0 +1,122 @@
+<template>
+
+    <!-- Lead Modal (UNCHANGED) -->
+    <c-cp-create-lead-modal
+        is-open={isLeadModalOpen}
+        project-name={selectedProjectName}
+        project-id={selectedProjectId}
+        onclose={handleModalClose}>
+    </c-cp-create-lead-modal>
+
+    <!-- Spinner -->
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+
+    <div class="horizontal-section">
+      <div>
+         <h2 class="project-heading">Featured Projects</h2>
+
+         </div>
+
+        <!-- SLIDER CONTAINER -->
+        <div class="slider-container">
+
+            <!-- LEFT ARROW -->
+            <button class="nav left" onclick={handlePrev}>
+                &#10094;
+            </button>
+
+            <!-- VIEWPORT -->
+            <div class="viewport">
+
+                <div class="gallery">
+
+                   
+                    <template if:true={visibleItems}>
+                        <template for:each={visibleItems} for:item="it">
+
+                            <div key={it.projectId} class="gallery-item">
+
+                                <!-- Image -->
+                                <div class="image-wrapper">
+                                    <template if:true={it.imageUrl}>
+                                        <img src={it.imageUrl} alt={it.name} loading="lazy" />
+                                    </template>
+
+                                    <div class="phase-tag">
+                                        ACTIVE 
+                                    </div>
+                                </div>
+
+                                <!-- Content -->
+                                <div class="content">
+
+                                    <div class="title">{it.name}</div>
+
+                                    <div class="meta">
+                                        <template if:true={it.country}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="15" viewBox="0 0 24 24" fill="rgba(128,128,128,0.6)">
+                                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+                                            </svg>
+                                            {it.country} 
+                                        </template>
+                                        
+                                    </div>
+
+                                    <!-- Actions -->
+                                    <div class="actions">
+
+                                        <!-- Create Lead -->
+                                         
+                                        <template if:false={isGuestUser}>
+                                        <button class="primary-btn"
+                                            data-project-name={it.name}
+                                            data-id={it.projectId}
+                                            onclick={handleCreateLead}>
+                                            Create Enquiry
+                                        </button>
+                                        </template>
+
+                                        <!-- Brochure -->
+                                        <template if:true={it.brochureUrl}>
+                                            <button class="secondary-btn"
+                                                data-url={it.brochureUrl}
+                                                onclick={handleDownload}>
+                                                Brochure
+                                                <svg width="16" height="16" viewBox="0 0 24 24"
+                                                    fill="black"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 16l4-5h-3V4h-2v7H8l4 5zm-7 2h14v2H5z"/>
+                                                </svg>
+                                            </button>
+                                        </template>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </template>
+                    </template>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT ARROW -->
+            <button class="nav right" onclick={handleNext}>
+                &#10095;
+            </button>
+
+        </div>
+
+        <!-- Error -->
+        <template if:true={error}>
+            <div class="error">Failed to load project images</div>
+        </template>
+
+    </div>
+
+</template>

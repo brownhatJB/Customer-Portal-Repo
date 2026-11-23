@@ -1,0 +1,346 @@
+<template>
+
+    <template if:true={eoi}>
+
+        <div class="details-container">
+
+            <!-- Header Banner -->
+            <div class="header-banner">
+
+                <div class="nav-back" onclick={handleBack}>
+
+                    <span>← Back to EOI(s)</span>
+                </div>
+
+                <h1 class="page-header">
+                    Expression of Interest - {eoi.eoiNumber}
+                </h1>
+
+                <div class="eoi-pill-badge">
+                    {eoi.eoiNumber}
+                </div>
+
+            </div>
+
+
+            <!-- Greeting Section -->
+            <div class="greeting-section">
+
+                <h2>Hello {greetingName},</h2>
+
+                <p>
+                    Here are the details of your Expression of Interest.
+                </p>
+
+            </div>
+
+
+            <!-- Main Content Layout -->
+            <div class="details-layout">
+
+
+                <!-- Left Card: EOI Details -->
+                <div class="details-card">
+
+                    <div class="card-title-header">
+
+                        <svg
+                            class="title-icon"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round">
+
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+
+                        </svg>
+
+                        <h3>EOI Record Details</h3>
+
+                    </div>
+
+
+                    <div class="card-grid">
+
+                        <div class="detail-item">
+                            <label>PROJECT</label>
+                            <span>{eoi.projectName}</span>
+                        </div>
+
+                        <div class="detail-item">
+                            <label>EOI AMOUNT</label>
+                            <span>${eoi.eoiAmount}</span>
+                        </div>
+
+                        <div class="detail-item">
+                            <label>CUSTOMER NAME</label>
+                            <span>{eoi.LeadName}</span>
+                        </div>
+
+                        <div class="detail-item">
+                            <label>UNIT TYPE</label>
+                            <span>{eoi.unitName}</span>
+                        </div>
+
+                        <div class="detail-item">
+                            <label>ENQUIRY ID</label>
+
+                            <div>
+                                <span class="tag-pill">
+                                    {eoi.LeadId}
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="detail-item">
+                            <label>STATUS</label>
+
+                            <span class="status-pill">
+                                <span class="status-dot"></span>
+                                {eoi.status}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Footer Action Buttons -->
+                    <template if:true={showPayBtn}>
+
+                        <div class="card-footer">
+
+                            <template if:false={paymentLinkLoading}>
+
+                                <button
+                                    class="btn-pay"
+                                    onclick={handlePay}>
+
+                                    Pay
+
+                                </button>
+
+                            </template>
+
+
+                            <template if:true={paymentLinkLoading}>
+
+                                <button
+                                    class="btn-pay"
+                                    disabled>
+
+                                    <lightning-spinner
+                                        class="pay-btn-spinner"
+                                        alternative-text="Loading"
+                                        size="x-small">
+                                    </lightning-spinner>
+
+                                    <span class="btn-label">
+                                        Pay
+                                    </span>
+
+                                </button>
+
+                            </template>
+
+                        </div>
+
+                    </template>
+
+                </div>
+
+
+                <!-- Right Card: Allocated Unit -->
+                <template if:true={showAllocatedUnit}>
+
+                    <div class="allocated-unit-card">
+
+                        <div class="allocated-unit-header">
+
+                            <div class="allocated-title-group">
+
+                                <span class="building-icon-bg">
+
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round">
+
+                                        <rect
+                                            x="4" y="2" width="16"  height="20" rx="2" ry="2">
+                                        </rect>
+
+                                        <path d="M9 22v-4h6v4"></path>
+                                        <path d="M8 6h.01"></path>
+                                        <path d="M16 6h.01"></path>
+
+                                    </svg>
+
+                                </span>
+
+                                <h2>Allocated Unit</h2>
+
+                            </div>
+
+
+                            <!-- Allocated & Accepted Badge -->
+                            <template if:true={showAllocatedBadge}>
+
+                                <span class="allocated-badge">
+
+                                    <span class="badge-dot"></span> Allocated & Accepted  </span>
+
+                            </template>
+
+
+                            <!-- Rejected Badge -->
+                            <template if:true={showAllocatedRejectBadge}>
+
+                                <span class="allocated-reject-badge">
+                                    Rejected
+                                </span>
+
+                            </template>
+
+                        </div>
+
+
+                        <div class="unit-details">
+
+                            <div class="unit-detail">
+
+                                <label>UNIT</label>
+
+                                <div>
+                                    <span class="tag-pill">
+                                        {eoi.allocatedUnitName}
+                                    </span>
+                                </div>
+
+                            </div>
+
+
+                            <div class="unit-detail">
+
+                                <label>PROPERTY</label>
+
+                                <span>
+                                    {eoi.allocatedPropertyName}
+                                </span>
+
+                            </div>
+
+
+                            <div class="unit-detail">
+
+                                <label>UNIT TYPE</label>
+
+                                <span>
+                                    {eoi.allocatedUnitType}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Accept Unit -->
+                        <template if:true={showAcceptUnitButton}>
+
+                            <button
+                                class="btn-pay full-width margin-top-md"
+                                onclick={handleAcceptUnit}
+                                disabled={isAcceptingUnit}>
+
+                                Accept Unit
+
+                            </button>
+
+                        </template>
+
+
+                        <!-- Reject Unit -->
+                        <template if:true={showRejectUnitButton}>
+
+                            <button
+                                class="btn-reject full-width margin-top-sm"
+                                onclick={handleRejectUnit}>
+
+                                Reject Unit
+
+                            </button>
+
+                        </template>
+
+                    </div>
+
+                </template>
+
+            </div>
+
+
+            <!-- Offer Journey Message -->
+          <template if:true={showOfferJourneyMessage}>
+
+            <div class="offer-journey-message">
+
+                <svg
+                    class="info-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"  height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round">
+
+                    <circle
+                        cx="12" cy="12"  r="10">
+                    </circle>
+
+                    <line
+                        x1="12" y1="16"  x2="12"  y2="12">
+                    </line>
+
+                    <line
+                        x1="12"  y1="8"  x2="12.01"  y2="8">
+                    </line>
+
+                </svg>
+
+                <div>
+                    <p>
+                        Unit has been allocated and accepted, and the offer has been created. You can now continue to the Journeys page to proceed with the offer.
+                    </p>
+
+                    <button
+                        class="btn-pay margin-top-sm"
+                        onclick={handleGoToJourneys}>
+                        Go to Journeys →
+                    </button>
+                </div>
+
+            </div>
+
+        </template>
+
+        </div>
+
+    </template>
+
+</template>

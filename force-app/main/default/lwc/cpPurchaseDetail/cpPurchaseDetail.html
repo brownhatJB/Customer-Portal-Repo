@@ -1,0 +1,60 @@
+<template>
+    <div class="page-header">
+        <div class="nav-back" onclick={handleBackToPurchases}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+            </svg>
+            <span>Back to Purchases</span>
+        </div>
+        <div class="page-heading">
+            <h1>Purchase Details</h1>
+        </div>
+        <div class="usl-detail"></div>
+    </div>
+
+    <div class="detail-wrapper">
+
+        <!-- Top Nav Panel -->
+        <div class="panels-container">
+            <nav class="top-panel">
+                <div class="nav-brand">
+                    <span class="brand-dot"></span>
+                    <span class="brand-label">Purchase Info</span>
+                </div>
+                <ul class="nav-list">
+                    <template for:each={navItems} for:item="item">
+                        <li key={item.id} class="nav-item">
+                            <button
+                                class={item.cssClass}
+                                data-id={item.id}
+                                onclick={handleNavClick}
+                            >
+                                <span class="nav-label">{item.label}</span>
+                                <span class="nav-indicator"></span>
+                            </button>
+                        </li>
+                    </template>
+                </ul>
+            </nav>
+
+            <!-- Content Panel -->
+            <main class="content-panel">
+                <template if:true={isSummary}>
+                    <c-cp-usl-summary usl-id={unitSaleId}></c-cp-usl-summary>
+                </template>
+                <template if:true={isPaymentPlan}>
+                    <c-cp-usl-payment-plan usl-id={unitSaleId}></c-cp-usl-payment-plan>
+                </template>
+                <template if:true={isInvoices}>
+                    <c-cp-usl-invoices usl-id={unitSaleId}></c-cp-usl-invoices>
+                </template>
+                <template if:true={isReceipts}>
+                    <c-cp-usl-receipts usl-id={unitSaleId}></c-cp-usl-receipts>
+                </template>
+                <template if:true={isAgreements}>
+                    <c-cp-usl-agreements usl-id={unitSaleId}></c-cp-usl-agreements>
+                </template>
+            </main>
+        </div>
+    </div>
+</template>

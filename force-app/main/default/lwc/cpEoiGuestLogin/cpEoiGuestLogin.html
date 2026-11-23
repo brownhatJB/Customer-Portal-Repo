@@ -1,0 +1,217 @@
+<template>
+
+    <!-- Login Screen -->
+    <div class="login-container">
+        <div class="content-wrapper">
+
+            <!-- Banner -->
+            <div class="header-banner">
+                <h1>Expression of Interest</h1>
+            </div>
+
+            <!-- Card -->
+            <div class="login-card">
+
+                <p class="card-subtitle">
+                    Verify your details to access your Expression of Interest.
+                </p>
+
+                <div class="form">
+
+                    <lightning-input
+                        type="email"
+                        label="Email Address"
+                        placeholder="Enter your email"
+                        value={email}
+                        icon-name="utility:email"
+                        icon-position="left"
+                        onchange={handleEmailChange}>
+                    </lightning-input>
+
+                    <lightning-input
+                        type="tel"
+                        label="Phone Number"
+                        placeholder="Enter your phone number"
+                        value={phone}
+                        icon-name="utility:call"
+                        icon-position="left"
+                        onchange={handlePhoneChange}>
+                    </lightning-input>
+
+                    <template if:true={error}>
+                        <div class="error-message">
+                            {error}
+                        </div>
+                    </template>
+
+                    <button
+                        class="continue-button"
+                        onclick={handleContinue}
+                        disabled={isLoading}>
+                        Continue &rarr;
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- OTP Modal -->
+    <template if:true={showOtpModal}>
+
+        <section
+            role="dialog"
+            tabindex="-1"
+            aria-modal="true"
+            class="otp-modal-backdrop">
+
+            <div class="otp-modal">
+
+                <!-- 1. Verified Success State -->
+                <template if:true={isVerified}>
+                    <div class="success-screen">
+                        <div class="success-circle">
+                            <svg class="checkmark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <p class="success-message">OTP has been verified successfully.</p>
+                    </div>
+                </template>
+
+                <!-- 2. OTP Input State -->
+                <template if:false={isVerified}>
+
+                    <!-- Close -->
+                    <button
+                        class="close-button"
+                        onclick={handleCloseOtp}
+                        title="Close">
+                        &times;
+                    </button>
+
+                    <!-- OTP Header -->
+                    <div class="otp-header">
+
+                        <h2>Verify OTP</h2>
+
+                        <p>
+                            We have sent a verification code to your email address.
+                        </p>
+
+                        <p class="otp-email">
+                            {email}
+                        </p>
+
+                    </div>
+
+                    <!-- OTP Input -->
+                    <div class="otp-form">
+
+                        <label class="otp-label">ENTER OTP</label>
+
+                        <!-- 6-Cell OTP Grid -->
+                        <div class="otp-cells-container">
+                            <input
+                                type="text"
+                                class="otp-cell"
+                                maxlength="1"
+                                data-index="0"
+                                oninput={updateOtp}
+                                onkeydown={handleOtpKeyDown}
+                                onpaste={handleOtpPaste}
+                                autofocus />
+
+                            <input
+                                type="text"
+                                class="otp-cell"
+                                maxlength="1"
+                                data-index="1"
+                                oninput={updateOtp}
+                                onkeydown={handleOtpKeyDown} />
+
+                            <input
+                                type="text"
+                                class="otp-cell"
+                                maxlength="1"
+                                data-index="2"
+                                oninput={updateOtp}
+                                onkeydown={handleOtpKeyDown} />
+
+                            <input
+                                type="text"
+                                class="otp-cell"
+                                maxlength="1"
+                                data-index="3"
+                               oninput={updateOtp}
+                                onkeydown={handleOtpKeyDown} />
+
+                            <input
+                                type="text"
+                                class="otp-cell"
+                                maxlength="1"
+                                data-index="4"
+                                oninput={updateOtp}
+                                onkeydown={handleOtpKeyDown} />
+
+                            <input
+                                type="text"
+                                class="otp-cell"
+                                maxlength="1"
+                                data-index="5"
+                                oninput={updateOtp}
+                                onkeydown={handleOtpKeyDown} />
+                        </div>
+
+                        <!-- OTP Error -->
+                        <template if:true={otpError}>
+                            <div class="error-message">
+                                {otpError}
+                            </div>
+                        </template>
+
+                        <!-- OTP Timer -->
+                        <div class="otp-timer">
+
+                            <template if:false={isOtpExpired}>
+                                OTP expires in :
+                                <strong>{formattedOtpTimer}</strong>
+                            </template>
+
+                            <template if:true={isOtpExpired}>
+                                <span class="expired-text">
+                                    OTP expired
+                                </span>
+                            </template>
+
+                        </div>
+
+                        <!-- Verify -->
+                        <button
+                            class="verify-button"
+                            onclick={handleVerifyOtp}
+                            disabled={isVerifyDisabled}>
+                            Verify OTP &rarr;
+                        </button>
+
+                        <!-- Resend -->
+                        <button
+                            class="resend-button"
+                            onclick={handleResendOtp}>
+                            Resend OTP
+                        </button>
+
+                    </div>
+
+                </template>
+
+            </div>
+
+        </section>
+
+    </template>
+
+</template>

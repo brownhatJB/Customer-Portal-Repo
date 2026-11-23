@@ -1,0 +1,355 @@
+/* ── Tokens ───────────────────────────────── */
+:host {
+    --blue-dark:    #0a2540;
+    --blue:         #0176d3;
+    --blue-mid:     #0369A1;
+    --blue-light:   #def2fd;
+    --blue-bg:      #f4faff;
+    --muted:        #64748B;
+    --border:       #e5e5e5;
+    --border-mid:   #eee;
+    --white:        #ffffff;
+    --surface:      #f7f9fc;
+    --green:        #16a34a;
+    --green-bg:     #f0fdf4;
+    --green-border: #bbf7d0;
+    --amber:        #d97706;
+    --amber-bg:     #fffbeb;
+    --amber-border: #fde68a;
+    --red:          #dc2626;
+    --red-bg:       #fef2f2;
+    --red-border:   #fecaca;
+    --radius:       10px;
+    --shadow-sm:    0 2px 8px rgba(0,0,0,0.05);
+    --shadow-hover: 0 5px 16px rgba(0,0,0,0.08);
+    --transition:   0.2s ease;
+}
+
+/* ── Layout ───────────────────────────────── */
+.page-container {
+    min-height: 100vh;
+}
+
+/* ── Header ───────────────────────────────── */
+.top-section {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.subtitle {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* ── Panel Card ───────────────────────────── */
+.panel-card {
+    background: var(--white);
+    padding: 18px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.panel-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    color: var(--blue-dark);
+}
+
+.svgIcon {
+    margin-right: 0.75rem;
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+}
+
+.svgIcon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.for-label {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-left: 6px;
+}
+
+/* ── Offer / Unit Cards ───────────────────── */
+.unit-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.unit-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.unit-card.selected {
+    border: 2px solid var(--blue);
+    background: var(--blue-bg);
+}
+
+.unit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--blue-mid);
+    margin-bottom: 4px;
+}
+
+.unit-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.bhk {
+    background: var(--blue-light);
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.property {
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+}
+
+.unit-details {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.unit-price {
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border);
+}
+
+.status-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--blue-light);
+    color: var(--blue-mid);
+}
+
+/* ── Payment Table ────────────────────────── */
+.payments-header,
+.payment-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1.1fr 1.1fr 1fr 0.7fr;
+    align-items: center;
+    padding: 11px 4px;
+    border-bottom: 1px solid var(--border-mid);
+    gap: 8px;
+}
+
+.payments-header {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 600;
+    border-bottom: 1.5px solid var(--border);
+}
+
+.payment-row {
+    font-size: 13.5px;
+    color: #333;
+    transition: background var(--transition);
+}
+
+.payment-row:hover {
+    background: var(--surface);
+    border-radius: 6px;
+}
+
+.payment-row:last-child {
+    border-bottom: none;
+}
+
+.item-name {
+    font-weight: 500;
+    color: var(--blue-dark);
+}
+
+.table-scroll {
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* ── Status Pills ─────────────────────────── */
+.status-pill {
+    display: flex;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    justify-content: center;
+    width: 5.7rem;
+}
+
+.pill-received {
+    background: var(--green-bg);
+    color: var(--green);
+    border: 1px solid var(--green-border);
+}
+
+.pill-not-invoiced {
+    background: var(--surface);
+    color: var(--muted);
+    border: 1px solid var(--border);
+}
+
+.pill-overdue {
+    background: var(--red-bg);
+    color: var(--red);
+    border: 1px solid var(--red-border);
+}
+
+.pill-invoiced {
+    background: var(--amber-bg);
+    color: var(--amber);
+    border: 1px solid var(--amber-border);
+}
+
+.pill-default {
+    background: var(--blue-light);
+    color: var(--blue-mid);
+    border: 1px solid #b3d9f5;
+}
+
+/* ── Pay Button ───────────────────────────── */
+.pay-btn {
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--blue);
+    background: var(--white);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--blue);
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+
+.pay-btn:hover {
+    background: var(--blue);
+    color: var(--white);
+    box-shadow: var(--shadow-hover);
+}
+
+.dash {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* ── Empty States ─────────────────────────── */
+.empty-state {
+    padding: 28px 16px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13.5px;
+    font-style: italic;
+}
+
+.plans-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    min-height: 260px;
+    padding: 40px;
+}
+
+.empty-icon {
+    opacity: 0.6;
+}
+
+.plans-empty p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* ── Skeletons ────────────────────────────── */
+@keyframes shimmer {
+    0%   { background-position: -600px 0; }
+    100% { background-position: 600px 0; }
+}
+
+.skeleton-card,
+.skeleton-plan {
+    border-radius: var(--radius);
+    background: linear-gradient(90deg, #eef1f5 25%, #e4e8ee 50%, #eef1f5 75%);
+    background-size: 600px 100%;
+    animation: shimmer 1.4s infinite;
+    margin-bottom: 10px;
+}
+
+.skeleton-card { height: 120px; }
+.skeleton-plan { height: 48px; }
+
+.cc-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    background: #D4AF37;
+    color: #1a1a1a;
+    font-size: 2.6rem;
+    display: grid;
+    place-items: center;
+}
+
+.page-section {
+    display: grid;
+    place-items: center;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.to-pay-btn {
+    border: none;
+    background: #1a2744;
+    color: #fff;
+    padding: 0.9rem 2.4rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+    position: relative;
+}
+
+.to-pay-btn-spinner {
+    position: absolute;
+    right: 75%;
+}
+
+.thank-you-heading {
+    font-size: 2.4rem;
+}

@@ -1,0 +1,234 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" class="modal">
+
+        <div class="modal-container">
+
+            <!-- Header -->
+            <div class="modal-header">
+                <div>
+                    <span class="eyebrow">NEW EXPRESSION OF INTEREST</span>
+                    <h2>Add New EOI</h2>
+                    <p>Enter the customer and property details to create an Expression of Interest.</p>
+                </div>
+
+                <button
+                    class="close-button"
+                    onclick={handleClose}
+                    title="Close">
+                    ×
+                </button>
+            </div>
+
+            <!-- Content -->
+            <div class="modal-body-grid">
+
+                <!-- Left -->
+                <div class="form-section">
+
+                    <div class="section-title">
+                        <span class="section-number">01</span>
+                        <div>
+                            <h3>Customer Details</h3>
+                            <p>Provide the customer's contact information.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+
+                        <lightning-input
+                            class="custom-input"
+                            type="text"
+                            label="First Name"
+                            placeholder="John"
+                            value={firstName}
+                            onchange={handleFirstNameChange}
+                            required>
+                        </lightning-input>
+
+                        <lightning-input
+                            class="custom-input"
+                            type="text"
+                            label="Last Name"
+                            placeholder="Doe"
+                            value={lastName}
+                            onchange={handleLastNameChange}
+                            required>
+                        </lightning-input>
+
+                    </div>
+
+                    <lightning-input
+                        class="custom-input"
+                        type="email"
+                        label="Email Address"
+                        placeholder="john.doe@example.com"
+                        value={email}
+                        onchange={handleEmailChange}
+                        disabled={isGuestUser}
+                        required>
+                    </lightning-input>
+
+                    <lightning-input
+                        class="custom-input"
+                        type="tel"
+                        label="Phone Number"
+                        placeholder="+91 98765 43210"
+                        value={phone}
+                        onchange={handlePhoneChange}
+                        required>
+                    </lightning-input>
+
+
+                    <div class="section-title property-title">
+                        <span class="section-number">02</span>
+                        <div>
+                            <h3>Property Details</h3>
+                            <p>Select the project, property and preferred unit type.</p>
+                        </div>
+                    </div>
+
+                    <!-- Project -->
+                    <lightning-combobox
+                        class="custom-input"
+                        name="project"
+                        label="Project Name"
+                        placeholder="Select a project"
+                        value={selectedProject}
+                        options={projectOptions}
+                        onchange={handleProjectChange}
+                        required>
+                    </lightning-combobox>
+
+                    <!-- Property -->
+                    <template if:true={selectedProject}>
+                        <lightning-combobox
+                            class="custom-input"
+                            name="property"
+                            label="Property"
+                            value={selectedProperty}
+                            options={propertyOptions}
+                            placeholder="Select a property"
+                            onchange={handlePropertyChange}
+                            required>
+                        </lightning-combobox>
+                    </template>
+
+                    <!-- Unit Type -->
+                    <template if:true={selectedProperty}>
+                        <lightning-combobox
+                            class="custom-input"
+                            name="unit"
+                            label="Unit Type"
+                            placeholder="Select unit type"
+                            value={selectedUnitType}
+                            options={unitTypeOptions}
+                            onchange={handleUnitTypeChange}
+                            required>
+                        </lightning-combobox>
+                    </template>
+
+                </div>
+
+
+                <!-- Right -->
+                <div class="preview-section">
+
+                    <div class="preview-header">
+                        <span class="preview-icon">⌂</span>
+
+                        <div>
+                            <span class="eyebrow">EOI SUMMARY</span>
+                            <h3>Review Details</h3>
+                        </div>
+                    </div>
+
+                    <div class="preview-card">
+
+                        <!-- Project -->
+                        <div class="preview-item">
+                            <span class="preview-label">PROJECT</span>
+
+                            <div class="preview-value">
+                                <span class="property-icon">⌂</span>
+                                <span>{selectedProjectName}</span>
+                            </div>
+                        </div>
+
+                        <div class="preview-divider"></div>
+
+                        <!-- Property -->
+                        <div class="preview-item">
+                            <span class="preview-label">PROPERTY</span>
+
+                            <div class="preview-value">
+                                <span>{propertyName}</span>
+                            </div>
+                        </div>
+
+                        <div class="preview-divider"></div>
+
+                        <!-- Unit Type -->
+                        <div class="preview-item">
+                            <span class="preview-label">UNIT TYPE</span>
+
+                            <div class="preview-value">
+                                {selectedUnitType}
+                            </div>
+                        </div>
+
+                        <div class="preview-divider"></div>
+
+                      <div class="preview-item amount-item">
+                            <span class="preview-label">EOI AMOUNT</span>
+
+                            <div class="amount-value">
+                                {eoiAmount}
+                            </div>
+                        </div>
+
+                        <div class="preview-divider"></div>
+
+                        <!-- Status -->
+                        <div class="preview-item">
+                            <span class="preview-label">STATUS</span>
+
+                            <span class="status-badge">
+                                <span class="status-dot"></span>
+                                Initiated
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="info-box">
+                        <span class="info-icon">i</span>
+                        <p>
+                            Please review the selected project and unit details
+                            before submitting the EOI.
+                        </p>
+                    </div>
+
+                    <button
+                        class="confirm-button"
+                        onclick={handleCreate}>
+
+                        <span>Confirm &amp; Submit EOI</span>
+                        <span class="button-arrow">→</span>
+
+                    </button>
+
+                    <p class="terms-text">
+                        By submitting this EOI, you agree to the applicable
+                        terms and conditions.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <div class="backdrop"></div>
+</template>

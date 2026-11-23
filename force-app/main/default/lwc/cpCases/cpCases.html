@@ -1,0 +1,156 @@
+<template>
+
+    <div class="page-heading">
+        <h2>CONCIERGE DESK</h2>
+        <p>Resolution at the speed of precision. Submit a new ticket or monitor your active case history.</p>
+    </div>
+
+    <div class="portal-wrapper">
+
+        <!-- ── LEFT PANEL : Create New Case ─────────────────────────── -->
+        <div class="panel panel-left">
+            <p class="panel-eyebrow">CASE INITIATION</p>
+            <h2 class="panel-title">Create New Case</h2>
+
+            <template if:true={successMessage}>
+                <div class="toast toast-success">
+                    <span class="toast-icon">✔</span> {successMessage}
+                </div>
+            </template>
+
+            <!-- <template if:true={errorMessage}>
+                <div class="toast toast-error">
+                    <span class="toast-icon">✕</span> {errorMessage}
+                </div>
+            </template> -->
+
+            <div class="form-group">
+                <label class="form-label">SUBJECT</label>
+                <input  type="text"
+                        class="form-input"
+                        placeholder="Brief summary of the issue"
+                        value={subject}
+                        onchange={handleSubjectChange} />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">CATEGORY</label>
+                <div class="select-wrapper">
+                    <select class="form-select" value={category} onchange={handleCategoryChange}>
+                        <option value="">-- Select --</option>
+                        <option value="Inquiry">Inquiry</option>
+                        <option value="Technical Issue">Technical Issue</option>
+                        <option value="Billing">Billing</option>
+                        <option value="Feedback">Feedback</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <span class="select-arrow">⌄</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">DESCRIPTION</label>
+                <textarea class="form-textarea"
+                          placeholder="Provide detailed context for our team…"
+                          value={description}
+                          onchange={handleDescriptionChange}></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">ATTACHMENTS</label>
+                <div class="file-drop" onclick={triggerFileInput}>
+                    <template if:false={fileName}>
+                        <span class="file-icon">⬆</span>
+                        <span class="file-hint">ATTACH SCREENSHOT</span>
+                    </template>
+                    <template if:true={fileName}>
+                        <span class="file-icon">📎</span>
+                        <span class="file-hint">{fileName}</span>
+                    </template>
+                    <input  type="file"
+                            class="hidden-input"
+                            accept="image/*,.pdf"
+                            data-id="fileInput"
+                            onchange={handleFileChange} />
+                </div>
+            </div>
+
+            <button class="btn-submit" onclick={handleSubmit} disabled={isSubmitting}>
+                <template if:false={isSubmitting}>SUBMIT CASE ➜</template>
+                <template if:true={isSubmitting}>Submitting…</template>
+            </button>
+        </div>
+
+        <!-- ── RIGHT PANEL : Case History ───────────────────────────── -->
+        <div class="panel panel-right">
+            <div class="history-header">
+                <div>
+                    <p class="panel-eyebrow">ACTIVE RECORDS</p>
+                    <h2 class="panel-title">My Case History</h2>
+                </div>
+                <div class="sort-badge">⇅ RECENT FIRST</div>
+            </div>
+
+            <template if:true={isLoading}>
+                <div class="loading-spinner">
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <template if:false={isLoading}>
+                <template if:true={hasCases}>
+                    <table class="case-table">
+                        <thead>
+                            <tr>
+                                <th>CASE ID</th>
+                                <th>SUBJECT</th>
+                                <th>STATUS</th>
+                                <th>LAST UPDATE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <template for:each={cases} for:item="c">
+                                <tr key={c.Id} class="case-row" data-id={c.Id}>
+                                    <td class="case-id">{c.CaseNumber}</td>
+                                    <td class="case-subject">
+                                        <span class="subject-text">{c.Subject}</span>
+                                        <span class="case-meta">{c.categoryDate}</span>
+                                    </td>
+                                    <td>
+                                        <span class={c.statusClass}>{c.Status}</span>
+                                    </td>
+                                    <td class="case-update">{c.relativeDate}</td>
+                                </tr>
+                            </template> -->
+
+                            <template for:each={cases} for:item="c">
+                            <tr key={c.Id}
+                                class="case-row"
+                                data-id={c.Id}
+                                onclick={handleCaseClick}>
+                                <td class="case-id">{c.CaseNumber}</td>
+                                <td>
+                                    <div>{c.Subject}</div>
+                                    <div class="case-meta">{c.categoryDate}</div>
+                                </td>
+                                <td>
+                                    <span class={c.statusClass}>{c.Status}</span>
+                                </td>
+                                <td>{c.relativeDate}</td>
+                            </tr>
+                        </template>
+
+                        </tbody>
+                    </table>
+                </template>
+
+                <template if:false={hasCases}>
+                    <div class="empty-state">
+                        <p>No cases found. Submit your first case using the form.</p>
+                    </div>
+                </template>
+            </template>
+        </div>
+
+    </div>
+</template>

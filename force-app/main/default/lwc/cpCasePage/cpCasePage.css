@@ -1,0 +1,9 @@
+host {
+    --gold: #D4AF37;
+    --white: #FCFAF8;
+    --black: #1A1A1A;
+
+    display: block;
+    min-height: 100vh;
+    background-color: var(--white);
+}

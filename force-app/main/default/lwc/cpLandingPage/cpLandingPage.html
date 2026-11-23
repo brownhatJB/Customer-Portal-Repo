@@ -1,0 +1,21 @@
+<template>
+
+    <div class="page-intro">
+        <h1 class="intro-title">PROPERTYFLEX PORTAL</h1>
+    </div>
+    
+    <div class="landing-wrapper">
+        <!-- <c-cp-side-menu></c-cp-side-menu> -->
+        <!-- <c-hero-section></c-hero-section> -->
+        <c-cp-perspective-title></c-cp-perspective-title>
+        <c-cp-horizontal-gallery data-id="Projects"></c-cp-horizontal-gallery>
+        <c-cp-features data-id="Features"></c-cp-features>
+        <c-cp-testimonial-marquee data-id="Testimonials"></c-cp-testimonial-marquee>
+        <template if:true={isGuestUser}>
+            <c-cp-c-t-a data-id="Enquiry"></c-cp-c-t-a>
+        </template>
+        <template if:false={isGuestUser}>
+            <c-cp-case-section data-id="Enquiry"></c-cp-case-section>
+        </template>
+    </div>
+</template>

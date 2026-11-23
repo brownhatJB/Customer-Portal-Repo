@@ -1,0 +1,47 @@
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 6rem;
+    background: #FCFAF8;
+
+    padding: 3rem;
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.1);
+}
+
+.page-header {
+    font-size: 4.5rem;
+    font-family: 'Cormorant Garamond';
+    font-style: italic;
+
+    color: #c8977a;
+}
+
+.nav-back {
+    color: #8a8279;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.enq-details {
+    color: #8a8279;
+}
+
+.journey-container {
+    display: flex;
+    gap: 20px;
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+    margin-top: 1.8rem;
+}
+
+.toast-component {
+    position: relative;
+    z-index: 10;
+}

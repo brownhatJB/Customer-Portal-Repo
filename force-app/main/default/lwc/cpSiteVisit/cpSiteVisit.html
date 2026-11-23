@@ -1,0 +1,511 @@
+<template>
+
+    <!-- ═══════════════════════════════════════
+         APPOINTMENTS — Full-width, enquiry-scoped
+    ═══════════════════════════════════════ -->
+    <div class="appointments-wrapper">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="header-left">
+                <div class="header-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="title">Appointments</h2>
+                    <p class="subtitle">Scheduled consultations for this enquiry</p>
+                </div>
+            </div>
+
+            <button class="btn-book-trigger" onclick={openBookingModal}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Book a Session
+            </button>
+        </div>
+
+        <!-- TABLE HEADER -->
+        <div class="table-header">
+            <span class="col-appointment">Appointment</span>
+            <span class="col-datetime">Date &amp; Time</span>
+            <span class="col-agent">Sales Agent</span>
+            <span class="col-status">Status</span>
+            <span class="col-actions">Actions</span>
+        </div>
+
+        <!-- APPOINTMENT ROWS -->
+        <div class="appointment-list">
+            <template for:each={appointments} for:item="appt">
+                <div key={appt.Id} class="appointment-row">
+
+                    <!-- Appointment Info -->
+                    <div class="col-appointment appt-info">
+                        <div class="appt-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="appt-title">MD Realty Consultation</div>
+                            <div class="appt-type">Scheduled Session</div>
+                        </div>
+                    </div>
+
+                    <!-- Date & Time -->
+                    <div class="col-datetime appt-datetime">
+                        <div class="appt-date">{appt.formattedDate}</div>
+                        <div class="appt-time">{appt.formattedTime}</div>
+                    </div>
+
+                    <!-- Agent -->
+                    <div class="col-agent appt-agent">
+                        <div class="agent-avatar">{appt.agentInitials}</div>
+                        <span class="agent-name">{appt.Owner.Name}</span>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-status appt-status">
+                        <span class={appt.statusClass}>{appt.Status__c}</span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="col-actions appt-actions">
+                        <template if:true={appt.isCancellable}>
+                            <button class="btn-reschedule"
+                                data-id={appt.Id}
+                                data-date={appt.isoDate}
+                                data-hour={appt.startHour}
+                                onclick={openRescheduleModal}>
+                                Reschedule
+                            </button>
+                            <button class="btn-cancel" data-id={appt.Id} onclick={openConfirmModal}>
+                                Cancel
+                            </button>
+                        </template>
+                        <template if:false={appt.isCancellable}>
+                            <span class="no-actions">—</span>
+                        </template>
+                    </div>
+
+                </div>
+            </template>
+
+            <!-- Empty State -->
+            <template if:true={isEmpty}>
+                <div class="empty-state">
+                    <p>No appointments found for this enquiry.</p>
+                </div>
+            </template>
+        </div>
+
+    </div>
+
+    <div class="skip-banner">
+        <div class="browse-link-section">
+            Don't want to book a session? Browse available units instead.
+            <template if:true={isBrowseUnitsLoading}>
+                <button class="browse-link-btn ld-btn" disabled={isBrowseUnitsLoading}>
+                    <lightning-spinner class="unit-btn-spinner" alternative-text="Loading" size="x-small"></lightning-spinner>
+                    <span class="btn-label">Browse Units</span>
+                </button>
+            </template>
+
+            <template if:false={isBrowseUnitsLoading}>
+                <button class="browse-link-btn" onclick={handleBrowseUnits}>
+                    <span class="btn-label">Browse Units</span>
+                </button>
+            </template>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         BOOK A SESSION MODAL
+    ═══════════════════════════════════════ -->
+    <template if:true={showBookingModal}>
+        <div class="modal-backdrop" onclick={handleBookingBackdropClick}>
+            <div class="modal modal--booking">
+
+                <!-- Gold accent bar -->
+                <div class="modal-gold-bar"></div>
+
+                <!-- Header -->
+                <div class="booking-modal-header">
+                    <div class="panel-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="modal-title">Book a Session</div>
+                        <p class="modal-sub">Schedule a new consultation</p>
+                    </div>
+                    <button class="btn-modal-close" onclick={closeBookingModal}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Form -->
+                <div class="booking-form">
+
+                    <!-- Date -->
+                    <div class="form-group">
+                        <label class="form-label" for="apptDate">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            Date
+                        </label>
+                        <input
+                            type="date"
+                            id="apptDate"
+                            class={dateInputClass}
+                            value={formDate}
+                            min={todayDate}
+                            onchange={handleDateChange}
+                        />
+                        <template if:true={dateError}>
+                            <span class="field-error">{dateError}</span>
+                        </template>
+                    </div>
+
+                    <!-- Start Time -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            Start Time
+                        </label>
+                        <div class="time-grid">
+                            <template for:each={timeSlots} for:item="slot">
+                                <button
+                                    key={slot.value}
+                                    class={slot.btnClass}
+                                    data-value={slot.value}
+                                    onclick={handleTimeSelect}
+                                >
+                                    {slot.label}
+                                </button>
+                            </template>
+                        </div>
+                        <template if:true={timeError}>
+                            <span class="field-error">{timeError}</span>
+                        </template>
+                    </div>
+
+                    <!-- End Time (read-only) -->
+                    <template if:true={formStartTime}>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                End Time
+                            </label>
+                            <div class="end-time-display">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                {formEndTimeLabel}
+                                <span class="end-time-note">auto-calculated</span>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Notes -->
+                    <div class="form-group">
+                        <label class="form-label" for="apptNotes">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                            </svg>
+                            Notes <span class="form-label-optional">(optional)</span>
+                        </label>
+                        <textarea
+                            id="apptNotes"
+                            class="form-textarea"
+                            placeholder="Any specific topics or questions..."
+                            value={formNotes}
+                            onchange={handleNotesChange}
+                            rows="3"
+                        ></textarea>
+                    </div>
+
+                    <!-- Submit -->
+                    <button class="btn-book" onclick={submitBooking} disabled={isBooking}>
+                        <template if:false={isBooking}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Confirm Booking
+                        </template>
+                        <template if:true={isBooking}>
+                            <div class="spinner"></div>
+                            Booking...
+                        </template>
+                    </button>
+
+                    <!-- Success -->
+                    <template if:true={bookingSuccess}>
+                        <div class="booking-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            Appointment booked!
+                        </div>
+                    </template>
+
+                    <!-- Error -->
+                    <template if:true={bookingError}>
+                        <div class="booking-error">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                            {bookingError}
+                        </div>
+                    </template>
+
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+    <!-- ═══════════════════════════════════════
+         RESCHEDULE MODAL (unchanged)
+    ═══════════════════════════════════════ -->
+    <template if:true={showRescheduleModal}>
+        <div class="modal-backdrop" onclick={handleRescheduleBackdropClick}>
+            <div class="modal modal--reschedule">
+
+                <div class="modal-gold-bar"></div>
+
+                <div class="reschedule-modal-header">
+                    <div class="reschedule-modal-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M23 4v6h-6"></path>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="modal-title">Reschedule Appointment</div>
+                        <p class="modal-sub">Choose a new date and time for your consultation.</p>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="reschedule-form">
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            Date
+                        </label>
+                        <input
+                            type="date"
+                            class={rescheduleDateInputClass}
+                            value={rescheduleDate}
+                            min={todayDate}
+                            onchange={handleRescheduleDateChange}
+                        />
+                        <template if:true={rescheduleDateError}>
+                            <span class="field-error">{rescheduleDateError}</span>
+                        </template>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            Start Time
+                        </label>
+                        <div class="time-grid">
+                            <template for:each={rescheduleTimeSlots} for:item="slot">
+                                <button
+                                    key={slot.value}
+                                    class={slot.btnClass}
+                                    data-value={slot.value}
+                                    onclick={handleRescheduleTimeSelect}
+                                >
+                                    {slot.label}
+                                </button>
+                            </template>
+                        </div>
+                        <template if:true={rescheduleTimeError}>
+                            <span class="field-error">{rescheduleTimeError}</span>
+                        </template>
+                    </div>
+
+                    <template if:true={rescheduleStartTime}>
+                        <div class="form-group">
+                            <label class="form-label">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                End Time
+                            </label>
+                            <div class="end-time-display">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                {rescheduleEndTimeLabel}
+                                <span class="end-time-note">auto-calculated</span>
+                            </div>
+                        </div>
+                    </template>
+
+                </div>
+
+                <div class="modal-actions reschedule-modal-actions">
+                    <button class="btn-keep" onclick={closeRescheduleModal}>Cancel</button>
+                    <button class="btn-confirm-reschedule" onclick={confirmReschedule} disabled={isRescheduling}>
+                        <template if:false={isRescheduling}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M23 4v6h-6"></path>
+                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                            </svg>
+                            Reschedule
+                        </template>
+                        <template if:true={isRescheduling}>
+                            <div class="spinner spinner--white"></div>
+                            Saving...
+                        </template>
+                    </button>
+                </div>
+
+                <template if:true={rescheduleSuccess}>
+                    <div class="success-message modal--reschedule-feedback">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Appointment rescheduled successfully!
+                    </div>
+                </template>
+
+                <template if:true={rescheduleError}>
+                    <div class="booking-error modal--reschedule-feedback">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        {rescheduleError}
+                    </div>
+                </template>
+
+            </div>
+        </div>
+    </template>
+
+
+    <!-- ═══════════════════════════════════════
+         CANCEL CONFIRMATION MODAL (unchanged)
+    ═══════════════════════════════════════ -->
+    <template if:true={showModal}>
+        <div class="modal-backdrop" onclick={handleBackdropClick}>
+            <div class="modal">
+                <div class="modal-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                </div>
+                <div class="modal-title">Cancel Appointment?</div>
+                <p class="modal-sub">This action cannot be undone. Your session will be permanently cancelled.</p>
+                <div class="modal-actions">
+                    <button class="btn-keep" onclick={closeModal}>Keep Appointment</button>
+                    <button class="btn-confirm-cancel" onclick={confirmCancel} disabled={isDeleting}>
+                        <template if:false={isDeleting}>Confirm Cancel</template>
+                        <template if:true={isDeleting}>Cancelling...</template>
+                    </button>
+                </div>
+                <template if:true={showSuccess}>
+                    <div class="success-message">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        Appointment Cancelled
+                    </div>
+                </template>
+            </div>
+        </div>
+    </template>
+
+</template>

@@ -1,0 +1,9 @@
+<template>
+    <template if:false={showJourneyDetail}>
+        <c-cp-journeys-list onenquiryclick={handleEnquiryRecieved}></c-cp-journeys-list>
+    </template>
+
+    <template if:true={showJourneyDetail}>
+        <c-cp-journey-detail enquiry-id={recievedEnquiryId}></c-cp-journey-detail>
+    </template>
+</template>

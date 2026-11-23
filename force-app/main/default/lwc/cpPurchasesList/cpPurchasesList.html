@@ -1,0 +1,48 @@
+<template>
+    <div class="purchases-wrapper">
+        <header class="section-header">
+            <h2 class="purchases-header">Purchases</h2>
+        </header>
+        <div class="table-header">
+            <span>USL Id</span>
+            <span>Unit</span>
+            <span>Project</span>
+            <span>Status</span>
+            <span>Price</span>
+            <span>Purchased On</span>
+        </div>
+
+        <template if:true={sales.length}>
+            <template for:each={sales} for:item="sale">
+                <div key={sale.Id} class="table-row" data-id={sale.Id} onclick={handleUnitSaleClick}>
+                    <span>{sale.Name}</span>
+                    <span>{sale.Unit__r.Name}</span>
+                    <span>{sale.Project__r.Name}</span>
+                    <span>{sale.Status__c}</span>
+                    <span>
+                        <lightning-formatted-number
+                            value={sale.Unit_Price__c}
+                            format-style="currency"
+                            currency-code="USD"
+                        >
+                        </lightning-formatted-number>
+                    </span>
+                    <span>
+                        <lightning-formatted-date-time
+                            value={sale.CreatedDate}
+                            year="numeric"
+                            month="short"
+                            day="2-digit">
+                        </lightning-formatted-date-time>
+                    </span>
+                </div>
+            </template>
+        </template>
+
+        <template if:false={sales.length}>
+            <div class="empty-state">
+                No Purchases found.
+            </div>
+        </template>
+    </div>
+</template>

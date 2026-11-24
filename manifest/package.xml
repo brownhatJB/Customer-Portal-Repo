@@ -2,6 +2,7 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
 		<members>AppointmentController</members>
+		<members>BrokerNotificationController</members>
 		<members>CasePortalController</members>
 		<members>CpCTALeadController</members>
 		<members>CpCreateOfferController</members>
@@ -32,6 +33,7 @@
 		<name>ApexClass</name>
 	</types>
 	<types>
+		<members>brokerNotificationBell</members>
 		<members>cpAccountPage</members>
 		<members>cpAppointmentPage</members>
 		<members>cpAppointments</members>

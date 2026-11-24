@@ -1,0 +1,41 @@
+<template>
+    <div class="bell-wrapper" >
+        <!-- The Bell Icon -->
+        <button class="icon-btn" onclick={toggleDropdown}>
+            <lightning-icon icon-name="utility:notification" size="small" class="icon-custom"></lightning-icon>
+            <template if:true={unreadCount}>
+                <span class="notification-badge">{unreadCount}</span>
+            </template>
+        </button>
+
+        <!-- The Dropdown Card -->
+        <template if:true={isDropdownOpen}>
+            <div class="notification-panel fade-in" onclick={handlePanelClick}>
+                <div class="panel-header">
+                    <h2>Notifications</h2>
+                    <button class="mark-all-btn" onclick={handleMarkAllAsRead}>Mark All as Read</button>
+                </div>
+                
+                <div class="notification-scroller">
+                    <template for:each={notifications} for:item="note">
+                        <div key={note.Id} class={note.itemClass} onclick={handleNotificationClick} data-noteid={note.Id} data-id={note.Related_Record_ID__c} data-portal={note.Target_Portal__c} data-type={note.Notification_Type__c} >
+                            <div class="note-indicator"></div>
+                            <div class="note-content">
+                                <p class="note-subject">{note.Subject__c}</p>
+                                <p class="note-body">{note.Notification_Body__c}</p>
+                                <p class="note-timestamp">{note.formattedDate}</p>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template if:false={hasNotifications}>
+                        <div class="empty-state">
+                            <lightning-icon icon-name="utility:check" size="medium"></lightning-icon>
+                            <p>All caught up!</p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

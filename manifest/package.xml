@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
+		<members>AppointmentController</members>
+		<members>CasePortalController</members>
+		<members>CpCTALeadController</members>
+		<members>CpCreateOfferController</members>
+		<members>CpDocumentsController</members>
+		<members>CpEoiGuestSessionController</members>
+		<members>CpEoiPortalController</members>
+		<members>CpGenerateInovoicesController</members>
+		<members>CpLoginController</members>
+		<members>CpPaymentPlanController</members>
+		<members>CpPurchaseController</members>
+		<members>CpUnitsController</members>
+		<members>DocumentRecordCollection</members>
+		<members>DocumentRecordCollectionTest</members>
+		<members>GetContactDetailsAction</members>
+		<members>GetMyEnquiries</members>
+		<members>GetMyOffers</members>
+		<members>GetMyUnitSales</members>
+		<members>OTPGenerationService</members>
+		<members>OTPGenerationServiceTest</members>
+		<members>OTPVerificationService</members>
+		<members>RazorpayPaymentController</members>
+		<members>UnitsTableController</members>
+		<members>UserUtil</members>
+		<members>cpLeadFieldSetController</members>
+		<members>cpProjectGalleryController</members>
+		<members>cpShortlistUnitsController</members>
+		<members>cpSpaSignatureController</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
 		<members>cpAccountPage</members>
 		<members>cpAppointmentPage</members>
 		<members>cpAppointments</members>

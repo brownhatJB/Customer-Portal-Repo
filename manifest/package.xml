@@ -33,6 +33,10 @@
 		<name>ApexClass</name>
 	</types>
 	<types>
+		<members>Account_and_Leads_Mapping_Flow_for_Community_User</members>
+		<name>Flow</name>
+	</types>
+	<types>
 		<members>brokerNotificationBell</members>
 		<members>cpAccountPage</members>
 		<members>cpAppointmentPage</members>
